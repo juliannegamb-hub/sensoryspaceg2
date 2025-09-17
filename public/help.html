@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LMS Help Tutorial</title>
+  <style>
+    :root {
+      --bg1: #f0a8ba;
+      --bg2: #79d0ec;
+      --bg3: #7cf134;
+      --accent: #00ffff;
+      --accent-2: #39ff14;
+      --text: #ffffff;
+      --glow-color: #73e9e9;
+      --btn-blue: #1e90ff;
+      --btn-purple: #9b59b6;
+      --btn-pink: #ff69b4;
+      --btn-yellow: #ffee00;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark-mode {
+      background: #000010;
+      color: var(--text);
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #111;
+      color: var(--accent);
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent);
+      transition: background 0.3s, box-shadow 0.3s;
+      z-index: 2000;
+    }
+
+    .back-btn:hover {
+      background: #000;
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent);
+    }
+
+    .help-btn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 50px;
+      box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+      cursor: pointer;
+      font-weight: 700;
+      z-index: 1200;
+      transition: transform .18s ease, box-shadow .3s;
+    }
+
+    .help-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.22);
+      backdrop-filter: blur(6px);
+      z-index: 1100;
+    }
+
+    .card {
+      background: #030828;
+      color: var(--text);
+      width: 92%;
+      max-width: 920px;
+      border-radius: 18px;
+      box-shadow: 0 0 18px rgba(10, 228, 228, 0.2);
+      padding: 22px;
+      text-align: center;
+      border: 2px solid var(--accent);
+    }
+
+    .card h2 {
+      margin: 0 0 10px 0;
+      color: var(--accent-2);
+      text-shadow: 0 0 5px var(--accent-2), 0 0 10px var(--accent-2);
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      background: var(--btn-blue);
+      color: var(--text);
+      box-shadow: 0 0 8px var(--glow-color);
+      transition: transform .14s ease, box-shadow 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 15px var(--accent), 0 0 25px var(--accent);
+    }
+
+    .btn.primary {
+      background: var(--btn-purple);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .btn.danger {
+      background: var(--btn-pink);
+      color: #000;
+      border: 1px solid var(--accent-2);
+      box-shadow: 0 0 10px var(--accent-2);
+    }
+
+    .tutorial-step {
+      display: none;
+      gap: 12px;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .step-text {
+      font-size: 20px;
+      color: var(--text);
+      max-width: 860px;
+      line-height: 1.6;
+      text-shadow: 0 0 4px var(--glow-color), 0 0 8px var(--glow-color);
+    }
+
+    .step-image {
+      max-width: 92%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(1, 114, 114, 0.3);
+    }
+
+    .step-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .counter {
+      font-weight: 700;
+      color: var(--text);
+      text-shadow: 0 0 5px var(--accent);
+    }
+
+    @media (max-width: 480px) {
+      .step-text {
+        font-size: 16px;
+        padding: 0 6px;
+      }
+      .help-btn {
+        padding: 10px 18px;
+        right: 14px;
+        bottom: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ✅ Back to Dashboard -->
+<a href="index.html" class="back-btn">⬅ Back to Dashboard</a>
+
+<script>
+  const applyDarkMode = () => {
+    try {
+      const settings = JSON.parse(localStorage.getItem('sensoryspaceSettings')) || {};
+      if (settings.appearance === "dark") {
+        document.body.classList.add("dark-mode");
+      }
+    } catch (e) {}
+  };
+  applyDarkMode();
+</script>
+
+<!-- Floating Help Button -->
+<button class="help-btn" id="helpButton">Hey! Need Help?</button>
+
+<!-- Help Modal -->
+<div class="modal" id="helpModal" aria-hidden="true">
+  <div class="card">
+    <h2>🌸 LMS Help & Tutorials</h2>
+    <p style="margin:6px 0 14px 0; color:#e6e1e1;">Choose an option below to begin the step-by-step tutorial.</p>
+    <div class="controls">
+      <button class="btn primary" id="openTutorial">Open Tutorial</button>
+      <button class="btn danger" id="exitHelp">Exit</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tutorial Modal -->
+<div class="modal" id="tutorialModal" aria-hidden="true">
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="tutorialTitle">
+    <h2 id="tutorialTitle">📖 Follow the Steps</h2>
+
+    <div class="tutorial-step" id="stepContainer" style="display:flex;">
+      <div class="step-text" id="stepText"></div>
+      <img id="stepImage" class="step-image" src="" alt="tutorial step image" style="display:none;">
+    </div>
+
+    <div class="step-footer">
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn primary" id="prevStep">◀ Previous</button>
+        <button class="btn primary" id="nextStep">Next ▶</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <div class="counter" id="stepCounter">Step 1 of 8</div>
+        <button class="btn primary" id="speakBtn">🔊 Speak</button>
+        <a href="index.html" class="btn danger">🏠 Back to Homepage</a>
+        <button class="btn danger" id="closeTutorialBtn">Exit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const helpButton = document.getElementById('helpButton');
+  const helpModal = document.getElementById('helpModal');
+  const openTutorial = document.getElementById('openTutorial');
+  const exitHelp = document.getElementById('exitHelp');
+  const tutorialModal = document.getElementById('tutorialModal');
+  const stepText = document.getElementById('stepText');
+  const stepImage = document.getElementById('stepImage');
+  const nextBtn = document.getElementById('nextStep');
+  const prevBtn = document.getElementById('prevStep');
+  const closeTutorialBtn = document.getElementById('closeTutorialBtn');
+  const stepCounter = document.getElementById('stepCounter');
+  const speakBtn = document.getElementById('speakBtn');
+
+  function getSettings() {
+    try {
+      return JSON.parse(localStorage.getItem('sensoryspaceSettings')) || {};
+    } catch {
+      return {};
+    }
+  }
+
+  const speakText = (text) => {
+    const plainText = text.replace(/<\/?strong>/g, '');
+    const speech = new SpeechSynthesisUtterance(plainText);
+    speech.lang = 'en-US';
+    window.speechSynthesis.speak(speech);
+  };
+
+  const steps = [
+    { text: "<strong>STEP 1:</strong> Click 'Home' to go to Homepage", img: "1.png" },
+    { text: "<strong>STEP 2:</strong> Fill up the form with your Name, Age, Birthday, Hobbies, Interests, and your favorite color!", img: "2.png" },
+    { text: "<strong>STEP 3:</strong> ARROW 1 — You can choose your avatar! And when you're done, click 'Show my Profile.'", img: "3.png" },
+    { text: "<strong>STEP 4:</strong> If you'd like to reset your progress with our lessons, click 'Reset Progress'.", img: "4.png" },
+    { text: "<strong>STEP 5:</strong> You can see the summary of your progress and awards here!", img: "5.png" },
+    { text: "<strong>STEP 6:</strong> You can also reset your lesson progress in the 'Reports' section. Just click: 'Reset All Lessons.'", img: "6.png" },
+    { text: "<strong>STEP 7:</strong> APP SETTINGS → Helps you set your preferences! ARROW 2: Helps you to adjust volume! ARROW 3: On and Off for Text-To-Speech.", img: "7.png" },
+    { text: "<strong>STEP 8:</strong> After setting your preferences, click 'Save Changes", img: "8.png" }
+  ];
+
+  let current = 0;
+
+  function openMainModal() {
+    helpModal.style.display = 'flex';
+    helpModal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeMainModal() {
+    helpModal.style.display = 'none';
+    helpModal.setAttribute('aria-hidden', 'true');
+  }
+
+  function openTutorialModal() {
+    closeMainModal();
+    tutorialModal.style.display = 'flex';
+    tutorialModal.setAttribute('aria-hidden', 'false');
+    current = 0;
+    show(current);
+  }
+
+  function closeTutorialModal() {
+    tutorialModal.style.display = 'none';
+    tutorialModal.setAttribute('aria-hidden', 'true');
+  }
+
+  function show(idx) {
+    const s = steps[idx];
+    stepText.innerHTML = s.text;
+    stepCounter.textContent = `Step ${idx + 1} of ${steps.length}`;
+    stepImage.src = s.img;
+    stepImage.style.display = s.img ? 'block' : 'none';
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if (current < steps.length - 1) {
+      current++;
+      show(current);
+    }
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (current > 0) {
+      current--;
+      show(current);
+    }
+  });
+
+  speakBtn.addEventListener('click', () => {
+    const settings = getSettings();
+    if (settings.tts === "On") {
+      speakText(steps[current].text);
+    } else {
+      alert("Text-to-Speech is turned off in settings.");
+    }
+  });
+
+  closeTutorialBtn.addEventListener('click', closeTutorialModal);
+  openTutorial.addEventListener('click', openTutorialModal);
+  exitHelp.addEventListener('click', closeMainModal);
+  helpButton.addEventListener('click', openMainModal);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const settings = getSettings();
+    if (settings.appearance === "dark") {
+      document.body.style.background = "#1e1e1e";
+      document.body.style.color = "#f1f1f1";
+      document.querySelectorAll('.card').forEach(card => card.style.background = "#222");
+    }
+    openMainModal(); // auto-show help
+  });
+</script>
+</body>
+</html>

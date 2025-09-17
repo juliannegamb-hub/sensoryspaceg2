@@ -1,0 +1,3008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lessons - SensorySpace</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap">
+  <style>
+    * { font-family: 'Comic Sans MS', cursive, sans-serif !important; }
+
+
+    /* ==== LIGHT MODE (Default) ==== */
+    body {
+      position: relative;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #fffde4 0%, #ffe680 100%);
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+    }
+
+
+    a {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #0077cc;
+      transition: color 0.3s;
+    }
+
+
+/* Make lesson images smaller and consistent */
+.scene, .money-card img, .match-img, .shop-item img, .sort-card img, .safety-card img {
+  max-width: 380px;
+  max-height: 320px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  margin: 10px auto 16px auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  display: block;
+}
+    .card:hover { transform: scale(1.02); }
+
+
+
+
+    /* Buttons */
+    .button, .lesson-btn {
+      background: linear-gradient(90deg, #ffcc80, #ffd700);
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      color: #333;
+      transition: 0.3s;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+      padding: 10px 18px;
+      margin: 8px;
+    }
+    .lesson-btn:hover { background: #ffb74d; }
+
+
+    .btn-yellow { background: #ffb703; }
+    .btn-yellow:hover { background: #f4a261; }
+    .btn-green { background: #2a9d8f; }
+    .btn-green:hover { background: #21867a; }
+    .btn-blue { background: #3a86ff; }
+    .btn-blue:hover { background: #265cc1; }
+    .btn-purple { background: #9b5de5; }
+    .btn-purple:hover { background: #7a3fc0; }
+
+
+
+
+    
+/* Style for choice buttons in lessons */
+.choice-btn {
+  display: inline-block;
+  margin: 8px 12px;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  border: 2px solid #ffd700;
+  background: linear-gradient(90deg, #fffde4 0%, #ffe680 100%);
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition:  0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.choice-btn:hover, .choice-btn:focus {
+  background: linear-gradient(90deg, #ffe680 0%, #ffd700 100%);
+  color: #222;
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(255,215,0,0.15);
+  border-color: #ffb703;
+}
+body.dark-mode .choice-btn {
+  background: linear-gradient(90deg, #333 0%, #444 100%);
+  color: #ffe082;
+  border: 2px solid #ffcc00;
+}
+body.dark-mode .choice-btn:hover, body.dark-mode .choice-btn:focus {
+  background: #222;
+  color: #fffde4;
+  border-color: #ffe082;
+  box-shadow: 0 0 10px #ffcc00, 0 0 20px #ffaa00;
+}
+
+
+    /* Drag & Drop */
+    .draggable, .draggable-item {
+      padding: 10px 15px;
+      background: #fff;
+      border: 2px solid #333;
+      border-radius: 10px;
+      cursor: grab;
+      font-size: 18px;
+    }
+    .dropzone, .drop-zone {
+      margin-top: 20px;
+      padding: 20px;
+      border: 3px dashed #333;
+      border-radius: 15px;
+      min-height: 100px;
+      background: #fafafa;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .dropzone.over, .drop-zone.over { background: #d6f5d6; }
+
+
+    /* Popup */
+    .popup {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff3cd;
+      padding: 20px;
+      border: 3px solid #333;
+      border-radius: 20px;
+      text-align: center;
+      z-index: 999;
+      display: none;
+      max-width: 400px;
+      transition: 0.3s;
+    }
+
+
+    /* Timer */
+    #timer {
+      position: fixed;
+      bottom: 10px; right: 10px;
+      background: rgba(0,0,0,0.3);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      z-index: 100;
+    }
+
+
+    /* Progress */
+    .progress-bar { background: #ddd; border-radius: 20px; overflow: hidden; }
+    .progress-fill {
+      background: #4caf50;
+      height: 100%;
+      transition: width 0.5s;
+    }
+
+
+    /* Success/Error */
+    .ok { background: #c8e6c9; }
+    .wrong { background: #ffcdd2; }
+
+
+    /* ===== TEXT-TO-SPEECH CONTROLS ===== */
+.tts-controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255,255,255,0.95);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+
+.tts-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.tts-btn:hover {
+  background: #45a049;
+  transform: scale(1.1);
+}
+
+
+.tts-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+.tts-btn.active {
+  background: #ff6b6b;
+  animation: pulse 1.5s infinite;
+}
+
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+
+.tts-settings {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: rgba(255,255,255,0.95);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 999;
+  display: none;
+  min-width: 200px;
+}
+
+
+.tts-settings.show {
+  display: block;
+}
+
+
+.tts-setting-group {
+  margin-bottom: 10px;
+}
+
+
+.tts-setting-group label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+
+.tts-setting-group select,
+.tts-setting-group input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+
+.tts-status {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  z-index: 1000;
+  display: none;
+}
+
+
+.tts-status.show {
+  display: block;
+}
+
+
+/* Dark mode TTS controls */
+body.dark-mode .tts-controls,
+body.dark-mode .tts-settings {
+  background: rgba(30,30,30,0.95) !important;
+  color: #f3f3f3 !important;
+  border: 1px solid #00eaff;
+  box-shadow: 0 0 10px #00eaff, 0 0 15px #00ccff;
+}
+
+
+body.dark-mode .tts-btn {
+  background: #2a9d8f !important;
+  color: #fff !important;
+}
+
+
+body.dark-mode .tts-btn:hover {
+  background: #21867a !important;
+}
+
+
+body.dark-mode .tts-btn.active {
+  background: #e76f51 !important;
+}
+
+
+body.dark-mode .tts-setting-group select,
+body.dark-mode .tts-setting-group input {
+  background: #333 !important;
+  color: #f3f3f3 !important;
+  border-color: #00eaff !important;
+}
+    /* ===== DARK MODE + NEON ==== */
+    body.dark-mode {
+      background: linear-gradient(135deg, #232526 0%, #414345 100%) !important;
+      color: #f3f3f3 !important;
+    }
+
+
+    body.dark-mode .card {
+      background: rgba(30,30,30,0.96) !important;
+      color: #f3f3f3 !important;
+      box-shadow: 0 0 10px #00eaff, 0 0 15px #00ccff;
+      border: 1px solid #00eaff;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    body.dark-mode .card:hover {
+      box-shadow: 0 0 15px #00eaff, 0 0 25px #00ccff;
+      transform: scale(1.02);
+    }
+
+
+    body.dark-mode a {
+      color: #80d8ff !important;
+      text-shadow: 0 0 6px #00eaff;
+    }
+
+
+    body.dark-mode .button,
+    body.dark-mode .lesson-btn {
+      background: linear-gradient(90deg, #222 0%, #333 100%) !important;
+      color: #ffe082 !important;
+      border: 1px solid #ffcc00;
+      box-shadow: 0 0 8px #ffcc00, 0 0 12px #ffaa00;
+      transition: all 0.3s;
+    }
+    body.dark-mode .button:hover,
+    body.dark-mode .lesson-btn:hover {
+      background: #111 !important;
+      color: #fffde4 !important;
+      box-shadow: 0 0 12px #ffcc00, 0 0 25px #ffaa00;
+      transform: scale(1.05);
+    }
+
+
+    body.dark-mode .progress-bar { background: #333 !important; }
+    body.dark-mode .progress-fill { background: #ffe082 !important; box-shadow: 0 0 10px #ffcc00, 0 0 20px #ffaa00; }
+
+
+    body.dark-mode .dropzone, body.dark-mode .drop-zone,
+    body.dark-mode .draggable, body.dark-mode .draggable-item {
+      background: #232526 !important;
+      color: #ffe082 !important;
+      border-color: #ffe082 !important;
+      box-shadow: 0 0 8px #ffaa00;
+    }
+    body.dark-mode .dropzone.over, body.dark-mode .drop-zone.over {
+      background: #2a2f2a !important;
+      border-color: #00eaff !important;
+    }
+
+
+    body.dark-mode .ok { background: #355c3a !important; }
+    body.dark-mode .wrong { background: #7c2f2f !important; }
+
+
+    body.dark-mode .popup {
+      background: #333 !important;
+      color: #ffe082 !important;
+      border-color: #ffe082;
+      box-shadow: 0 0 12px #ffcc00, 0 0 20px #ffaa00;
+    }
+
+
+    body.dark-mode img,
+    body.dark-mode .scene,
+    body.dark-mode .money-card img {
+      filter: brightness(0.85) contrast(1.1) !important;
+    }
+
+    /* Keep the back link always on top and clickable */
+a {
+  z-index: 1001;
+}
+
+/* Shrink and push the lessons box down a bit */
+.card {
+  max-width: 800px;
+  margin: 90px auto 24px; /* leaves space for the back link at top-left */
+  padding: 16px;          /* slightly smaller padding */
+}
+/* Awards grid and uniform badge styling */
+#badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+#badges .badge {
+  width: 120px;
+  min-width: 120px;
+  padding: 10px 8px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid #e9e9e9;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+#badges .badge img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+  padding: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+#badges .badge span {
+  display: block;
+  margin-top: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Dark mode adjustments */
+body.dark-mode #badges .badge {
+  background: #2b2b2b !important;
+  border-color: #444 !important;
+  box-shadow: 0 0 8px rgba(255, 204, 0, 0.25);
+}
+body.dark-mode #badges .badge img {
+  background: #1e1e1e !important;
+  box-shadow: 0 0 6px rgba(0, 234, 255, 0.15);
+}
+body.dark-mode #badges .badge span {
+  color: #ffe082 !important;
+}
+/* Tiny toast for correct/wrong feedback */
+#toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 220px;
+  max-width: 80vw;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #1f2a1f;
+  background: #c8e6c9; /* success default */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+#toast.show { opacity: 1; transform: translate(-50%, 8px); }
+#toast.error { background: #ffcdd2; color: #2f1f1f; }
+#toast.info  { background: #fff3cd; color: #2f2a1f; }
+
+body.dark-mode #toast { background: #355c3a; color: #ffe082; }
+body.dark-mode #toast.error { background: #7c2f2f; color: #ffe082; }
+body.dark-mode #toast.info  { background: #44402a; color: #ffe082; }
+  </style>
+</head>
+<body>
+  <a href="index.html">⬅ Back to Dashboard</a>
+
+
+  <!-- Text-to-Speech Controls -->
+<div class="tts-controls">
+  <button class="tts-btn" id="ttsPlayBtn" title="Play/Pause (Space)" onclick="toggleTTS()">🔊</button>
+  <button class="tts-btn" id="ttsStopBtn" title="Stop (Escape)" onclick="stopTTS()">⏹️</button>
+  <button class="tts-btn" id="ttsSettingsBtn" title="Settings" onclick="toggleTTSSettings()">⚙️</button>
+</div>
+
+
+<!-- TTS Settings Panel -->
+<div class="tts-settings" id="ttsSettings">
+  <div class="tts-setting-group">
+    <label>Voice:</label>
+    <select id="ttsVoiceSelect">
+      <option value="default">Default Voice</option>
+    </select>
+  </div>
+  <div class="tts-setting-group">
+    <label>Speed: <span id="ttsSpeedValue">1.0</span></label>
+    <input type="range" id="ttsSpeedRange" min="0.5" max="2.0" step="0.1" value="1.0">
+  </div>
+  <div class="tts-setting-group">
+    <label>Volume: <span id="ttsVolumeValue">1.0</span></label>
+    <input type="range" id="ttsVolumeRange" min="0" max="1" step="0.1" value="1.0">
+  </div>
+  <div class="tts-setting-group">
+    <label>
+      <input type="checkbox" id="ttsAutoPlay" checked> Auto-read lessons
+    </label>
+  </div>
+  <div class="tts-setting-group">
+    <label>
+      <input type="checkbox" id="ttsReadChoices" checked> Read answer choices
+    </label>
+  </div>
+</div>
+
+
+<!-- TTS Status -->
+<div class="tts-status" id="ttsStatus"></div>
+
+
+  <div class="popup" id="popupMessage">Lesson Completed! 🎉</div>
+  <div id="toast" role="status" aria-live="polite"></div>
+
+
+  <script>
+  // Single source of truth: sensoryspaceSettings.appearance ∈ {'dark','light'}
+  function applyTheme() {
+    const settings = JSON.parse(localStorage.getItem('sensoryspaceSettings') || '{}');
+    const isDark = settings.appearance === 'dark';
+    document.body.classList.toggle('dark-mode', isDark);
+  }
+
+  // Apply on load
+  document.addEventListener('DOMContentLoaded', applyTheme);
+
+  // Sync across tabs/windows
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'sensoryspaceSettings') applyTheme();
+  });
+
+  // Re-apply when the tab regains focus (covers changes in another tab)
+  window.addEventListener('visibilitychange', () => {
+    if (!document.hidden) applyTheme();
+  });
+  window.addEventListener('focus', applyTheme);
+</script>
+</body>
+  <a href="index.html">⬅ Back to Dashboard</a>
+  <div class="card">
+    <h1>📚 Lessons</h1>
+    <div class="lesson-menu">
+      <h3>Select a Lesson:</h3>
+      <h3>👥 Social Skills 👥</h3>
+      <div id="lessonSelectionSocial" class="lesson-list">
+        <button class="lesson-btn" onclick="startLesson('bubbleStory')">🫧 Personal Boundaries & Space</button>
+        <button class="lesson-btn" onclick="startLesson('emotions')">😊 Understanding Emotions</button>
+        <button class="lesson-btn" onclick="startLesson('takingTurns')">🔄 Taking Turns</button>
+        <button class="lesson-btn" onclick="startLesson('bodyLanguage')">👀 Reading Body Language</button>
+      </div>
+      <h3>🤝 Life Skills 🤝</h3>
+      <div id="lessonSelectionComm" class="lesson-list">
+        <button class="lesson-btn" onclick="startLesson('personalHygiene')">🛁 Personal Hygiene</button>
+        <button class="lesson-btn" onclick="startLesson('deepBreathing')">🌬️ Deep Breathing</button>
+        <button class="lesson-btn" onclick="startLesson('calmDown')">🧸 Calm Down Strategies</button>
+        <button class="lesson-btn" onclick="startLesson('handlingMoney')">💰 Handling Money</button>
+        <button class="lesson-btn" onclick="startLesson('safetyPublic')">🚨 Safety in Public</button>
+      </div>
+    </div>
+    <!-- Lesson content area -->
+    <div id="lessonContainer" class="hidden">
+      <button onclick="goBack()" class="lesson-btn">⬅ Back to Lessons</button>
+      <div id="lessonContent"></div>
+    </div>
+    <!-- Progress and awards -->
+    <div class="progress-container">
+      <h2>Progress</h2>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="muted" id="progressText"></div>
+      <button class="reset-btn" onclick="resetProgress()">🔄 Reset Progress</button>
+    </div>
+    <div id="awards">
+      <h2>Awards 🏅</h2>
+      <div id="badges"></div>
+      <button class="button btn-purple" onclick="viewTimes()">⏱ View My Time Stats</button>
+    </div>
+  </div>
+  <div id="popup" class="popup"></div>
+  <div id="timer">⏱ 0s</div>
+  <script>
+    // ===============================
+    // PROGRESS / AWARDS
+    // ===============================
+const implementedLessons = ['bubbleStory','emotions','takingTurns','personalHygiene','deepBreathing','calmDown','handlingMoney','safetyPublic'];
+   let progress = JSON.parse(localStorage.getItem("lessonProgress")) || { completed: 0, total: implementedLessons.length, badges: [] };
+
+
+
+
+    if (progress.total !== implementedLessons.length) {
+      progress.total = implementedLessons.length;
+      localStorage.setItem("lessonProgress", JSON.stringify(progress));
+    }
+
+
+
+
+    const badgeImages = {
+      "Bubble Protector Badge": "images/bubble_badge.png",
+      "Emotion Explorer Badge": "images/emotion_badge.png",      
+      "Turn Taker Badge": "images/turn_badge.png",
+      "Body Language Detective Badge": "images/body_badge.png",
+      "Hygiene Hero Badge": "images/hygiene_badge.png",
+      "Breathing Buddy Badge": "images/breathing_badge.png",
+      "Calm Captain Badge": "images/calm_badge.png",
+      "Money Master Badge": "images/money_badge.png",
+      "Public Safety Badge": "images/safety_badge.png",
+      "default": "images/default_badge.png"
+    };
+
+
+
+
+    function updateProgress() {
+      const percentage = Math.min(100, (progress.completed / progress.total) * 100);
+      document.getElementById("progressFill").style.width = percentage + "%";
+      document.getElementById("progressText").textContent = `${progress.completed} of ${progress.total} lessons completed`;
+
+
+
+
+      localStorage.setItem("lessonProgress", JSON.stringify(progress));
+      const badgeContainer = document.getElementById("badges");
+      badgeContainer.innerHTML = "";
+      progress.badges.forEach(b => {
+        const badge = document.createElement("div");
+        badge.classList.add("badge");
+        const imgSrc = badgeImages[b] || badgeImages["default"];
+        badge.innerHTML = `
+          <img src="${imgSrc}" alt="${b} badge">
+          <span>${b}</span>
+        `;
+        badgeContainer.appendChild(badge);
+      });
+    }
+
+
+
+
+    function completeLesson(id, badgeName) {
+      if (!progress.badges.includes(badgeName)) {
+        progress.completed = Math.min(progress.total, progress.completed + 1);
+        progress.badges.push(badgeName);
+      }
+function randomGradient() {
+  // Array of bright color pairs for gradients
+  const gradients = [
+    ['#ffe259', '#ffa751'],
+    ['#f6d365', '#fda085'],
+    ['#fbc2eb', '#a6c1ee'],
+    ['#f9d423', '#ff4e50'],
+    ['#a1ffce', '#faffd1'],
+    ['#f7971e', '#ffd200'],
+    ['#fceabb', '#f8b500'],
+    ['#f8ffae', '#43c6ac'],
+    ['#ffecd2', '#fcb69f'],
+    ['#ff9a9e', '#fad0c4'],
+    ['#a18cd1', '#fbc2eb'],
+    ['#fbc2eb', '#a6c1ee'],
+    ['#fdc830', '#f37335'],
+    ['#e0c3fc', '#8ec5fc'],
+    ['#f093fb', '#f5576c'],
+    ['#4facfe', '#00f2fe'],
+    ['#43e97b', '#38f9d7'],
+    ['#fa709a', '#fee140'],
+    ['#30cfd0', '#330867'],
+    ['#5ee7df', '#b490ca']
+  ];
+  const pair = gradients[Math.floor(Math.random() * gradients.length)];
+  return `linear-gradient(90deg, ${pair[0]}, ${pair[1]})`;
+}
+
+
+
+
+function applyRandomButtonGradients() {
+  const btns = document.querySelectorAll('.lesson-btn, .button');
+  btns.forEach(btn => {
+    btn.style.background = randomGradient();
+    btn.style.color = '#333'; // for contrast
+    btn.style.border = 'none';
+  });
+}
+
+
+
+
+// Apply on page load and after each lesson render
+document.addEventListener('DOMContentLoaded', applyRandomButtonGradients);
+
+
+
+
+// Also re-apply after dynamic content changes
+const observer = new MutationObserver(applyRandomButtonGradients);
+observer.observe(document.body, { childList: true, subtree: true });
+
+
+
+
+updateProgress();
+      updateProgress();
+      alert("🎉 You earned the " + badgeName + "!");
+    }
+
+
+
+
+    function resetProgress() {
+      progress = { completed: 0, total: implementedLessons.length, badges: [] };
+      updateProgress();
+      alert("Progress has been reset!");
+    }
+
+
+
+
+    function viewTimes() {
+      alert("⏱ Time tracking coming soon!");
+    }
+
+
+
+
+    // ===============================
+    // NAVIGATION
+    // ===============================
+    function startLesson(lessonId) {
+  document.getElementById("lessonSelectionSocial").classList.add("hidden");
+  document.getElementById("lessonSelectionComm").classList.add("hidden");
+  document.getElementById("lessonContainer").classList.remove("hidden");
+
+
+
+
+  if (lessonId === "bubbleStory") {
+    loadBubbleStory();
+  } else if (lessonId === "emotions") {
+    loadEmotionsLesson();
+  } else if (lessonId === "personalHygiene") {
+    loadHygieneLesson();
+  } else if (lessonId === "deepBreathing") {
+    loadDeepBreathingLesson();
+  } else if (lessonId === "calmDown") {
+    loadCalmDownLesson();
+  } else if (lessonId === "handlingMoney") {
+    loadMoneyLesson();
+  } else if (lessonId === "safetyPublic") {
+    loadSafetyPublic();
+  } else if (lessonId === "takingTurns") {
+    loadTakingTurnsLesson();
+  } else if (lessonId === "bodyLanguage") {
+    loadBodyLanguageLesson();
+  } else {
+    document.getElementById("lessonContent").innerHTML = "<p>🚧 Lesson coming soon...</p>";
+  }
+}
+function loadEmotionsLesson() {
+  const emotionScenes = [
+    {
+      img: "happysam.jpg",
+      text: "This is Sam. How do you think Sam feels?",
+      choices: [
+        { text: "Happy 😊", correct: true, feedback: "Correct! Sam is smiling and looks happy." },
+        { text: "Sad 😢", correct: false, feedback: "Try again! Look at Sam's smile." },
+        { text: "Angry 😠", correct: false, feedback: "Try again! Sam doesn't look angry." }
+      ]
+    },
+    {
+      img: "sadmia.webp",
+      text: "This is Mia. How do you think Mia feels?",
+      choices: [
+        { text: "Excited 🤩", correct: false, feedback: "Try again! Mia isn't excited." },
+        { text: "Sad 😢", correct: true, feedback: "Correct! Mia has tears and a frown." },
+        { text: "Surprised 😲", correct: false, feedback: "Try again! Mia doesn't look surprised." }
+      ]
+    },
+    {
+      img: "angryben.webp",
+      text: "This is Ben. How do you think Ben feels?",
+      choices: [
+        { text: "Angry 😠", correct: true, feedback: "Correct! Ben's eyebrows are down and he looks upset." },
+        { text: "Happy 😊", correct: false, feedback: "Try again! Ben isn't smiling." },
+        { text: "Scared 😱", correct: false, feedback: "Try again! Ben doesn't look scared." }
+      ]
+    },    
+    {
+      img: "SurprisedJames.jpg",
+      text: "This is James. How do you think James feels?",
+      choices: [
+        { text: "Tired 😴", correct: false, feedback: "Nope! James doesn’t look sleepy." },
+        { text: "Surprised 😲", correct: true, feedback: "Correct! James' eyes are wide and her mouth is open in surprise." },
+        { text: "Excited 🤩", correct: false, feedback: "Not this time! James doesn’t look thrilled." }
+      ]
+    },
+    {
+      img: "shylucas.jpg",
+      text: "This is Lucas. How do you think Lucas feels?",
+      choices: [
+        { text: "Shy 🙈", correct: true, feedback: "Correct! Lucas is looking down and covering his face." },
+        { text: "Happy 😊", correct: false, feedback: "Try again! Lucas isn't smiling." },
+        { text: "Scared 😱", correct: false, feedback: "Try again! Lucas doesn't look scared." }
+      ]
+    },
+    {
+      img: "scaredmina.webp",
+      text: "This is Mina. How do you think Mina feels?",
+      choices: [
+        { text: "Angry 😠", correct: false, feedback: "Not this time! She doesn’t look mad." },
+        { text: "Surprised 😲", correct: false, feedback: "Try again! She doesn't look surprised." },
+        { text: "Scared 😱", correct: true, feedback: "Gereat job! Mina looks scared with wide eyes and fearful expression." }
+      ]
+    }
+  ];
+  let currentEmotion = 0;
+
+
+
+
+  function showEmotionScene() {
+    if (currentEmotion >= emotionScenes.length) {
+      document.getElementById("lessonContent").innerHTML = `
+        <h2>🎉 Great Job!</h2>
+        <p>You learned to recognize different emotions. You earned the Emotion Explorer Badge!</p>
+        <button class="lesson-btn" onclick="completeLesson('emotions', 'Emotion Explorer Badge')">Finish Lesson ✅</button>
+      `;
+      return;
+    }
+    const scene = emotionScenes[currentEmotion];
+    let html = `<h2>Emotion ${currentEmotion + 1}</h2>
+      <img class="scene" src="${scene.img}" alt="Emotion face">
+      <p>${scene.text}</p>`;
+    scene.choices.forEach((choice, idx) => {
+      html += `<button class="choice-btn" onclick="handleEmotionChoice(${idx})">${choice.text}</button>`;
+    });
+    document.getElementById("lessonContent").innerHTML = html;
+  }
+
+
+
+
+  window.handleEmotionChoice = function(idx) {
+    const scene = emotionScenes[currentEmotion];
+    const choice = scene.choices[idx];
+    alert(choice.feedback);
+    if (choice.correct) {
+      currentEmotion++;
+      showEmotionScene();
+    }
+  };
+
+
+
+
+  showEmotionScene();
+}
+
+
+
+
+    function goBack() {
+      document.getElementById("lessonSelectionSocial").classList.remove("hidden");
+      document.getElementById("lessonSelectionComm").classList.remove("hidden");
+      document.getElementById("lessonContainer").classList.add("hidden");
+    }
+
+
+
+
+        // ===============================
+    // BUBBLE STORY (Personal Space)
+    // ===============================
+    let bubbleScenes = [
+      { img: "AbbyNoah.webp", text: "Abby stood too close to Noah in line. What should Abby do?",
+        choices: [
+          { text: "Stay very close and push", correct: false, feedback: "Oops! Noah looks squished. Try again." },
+          { text: "Step back to give Noah space", correct: true, feedback: "Great! Now Noah feels safe in his bubble." }
+        ]},
+      { img: "imagesscene2.jpg", text: "Liam tagged Ava and wanted to hug. What should he do first?",
+        choices: [
+          { text: "Hug her without asking", correct: false, feedback: "That was too close! Try again." },
+          { text: "Ask Ava, 'Can I give you a hug?'", correct: true, feedback: "Not now, but we can high-five!" }
+        ]},
+     { img: "Miaben.webp", text: "Mia wants to borrow Ben’s toy. What should she do before taking it?",
+        choices: [
+          { text: "Grab the toy quickly", correct: false, feedback: "That was too close! Try again." },
+          { text: "Ask Ben politely, 'Can I borrow your toy?'", correct: true, feedback: "Good Job! Ben let Mia borrow his toy." }
+        ]},
+     { img: "Sophiedoor.jpg", text: "Sophie wants to enter the classroom. What should she do before going inside?",
+        choices: [
+          { text: "Knock on the door", correct: true, feedback: "Nice! Always remember to be respectful." },
+          { text: "Run inside quickly", correct: false, feedback: "Not quite, try again!" }
+        ]},
+      { img: "ianline.webp", text: "Ian is standing in line and wants to be closer to the front. What should he do?",
+        choices: [
+          { text: "Wait his turn in line", correct: true, feedback: "Nice! Always remember to be respectful." },
+          { text: "Push past others", correct: false, feedback: "Not quite, try again!" }
+        ]},
+     { img: "romeopencil.jpg", text: "Romeo wants to borrow Ava’s pencil. What should he do?",
+        choices: [
+          { text: "Take the pencil without asking", correct: false, feedback: "Not quite! That’s not polite." },
+          { text: "Ask Ava politely to borrow it", correct: true, feedback: "Correct! Asking first is respectful." }
+        ]}
+    ];
+    let currentScene = 0;
+
+
+
+
+
+
+    function loadBubbleStory() { currentScene = 0; showScene(); }
+
+
+
+
+    function showScene() {
+      if (currentScene >= bubbleScenes.length) {
+        document.getElementById("lessonContent").innerHTML = `
+          <h2>🎉 Congratulations!</h2>
+          <p>Liam learned how to respect personal space and became a Bubble Protector!</p>
+          <button class="lesson-btn" onclick="completeLesson('bubbleStory', 'Bubble Protector Badge')">Finish Lesson ✅</button>
+        `;
+        return;
+      }
+      const scene = bubbleScenes[currentScene];
+      let html = `<h2>Scene ${currentScene + 1}</h2>
+                  <img class="scene" src="${scene.img}" alt="Scene image">
+                  <p>${scene.text}</p>`;
+      scene.choices.forEach((choice, index) => {
+        html += `<button class="choice-btn" onclick="handleChoice(${index})">${choice.text}</button>`;
+      });
+      document.getElementById("lessonContent").innerHTML = html;
+    }
+
+
+
+
+    function handleChoice(choiceIndex) {
+      const scene = bubbleScenes[currentScene];
+      const choice = scene.choices[choiceIndex];
+      alert(choice.feedback);
+      if (choice.correct) { currentScene++; showScene(); }
+    }
+
+
+
+
+    // ===============================
+    // PERSONAL HYGIENE
+    // ===============================
+    let hygieneScenes = [
+      {
+        img: "waking up.avif",
+        text: "Good morning! What do we do first when we wake up?",
+        choices: [
+          { text: "🦷 Brush Teeth", correct: true, feedback: "Yes! Brushing our teeth first keeps them shiny and healthy." },
+          { text: "🍚 Eat Breakfast", correct: false, feedback: "We eat after brushing our teeth!" },
+          { text: "🚿 Take a Bath", correct: false, feedback: "We brush teeth first, then bath!" }
+        ]
+      },
+      {
+        img: "brushteeth.jpg",
+        text: "Let's brush our teeth! Pick the right steps in order.",
+        choices: [
+          { text: "Pick up toothbrush", correct: true, feedback: "Great! First we pick up our toothbrush." },
+          { text: "Put toothpaste", correct: true, feedback: "Yes! A pea-sized amount is perfect." },
+          { text: "Brush top and bottom teeth", correct: true, feedback: "Keep brushing carefully!" },
+          { text: "Brush tongue", correct: true, feedback: "Don't forget the tongue for fresh breath!" },
+          { text: "Rinse mouth and toothbrush", correct: true, feedback: "All done! Teeth are happy and clean!" }
+        ],
+        multiStep: true
+      },
+      {
+        img: "wash_hands.jpg",
+        text: "Next, let's wash our hands properly. Which steps are correct?",
+        choices: [
+          { text: "Wet hands and add soap", correct: true, feedback: "Perfect!" },
+          { text: "Rub hands and fingers (20s)", correct: true, feedback: "Yes! Rub for 20 seconds." },
+          { text: "Rinse and dry", correct: true, feedback: "Awesome! Hands are clean." }
+        ],
+        multiStep: true
+      },
+      {
+        img: "bath.jpg",
+        text: "Time for a bath! Which is the right way?",
+        choices: [
+          { text: "Use shampoo and soap carefully", correct: true, feedback: "Great!" },
+          { text: "Dry body and wear clean clothes", correct: true, feedback: "Yes, always wear clean clothes!" }
+        ],
+        multiStep: true
+      },
+      {
+        img: "changing clothes.jpg",
+        text: "Changing clothes! Which one is ready for school?",
+        choices: [
+          { text: "Dirty smelly shirt", correct: false, feedback: "Oops! We need clean clothes." },
+          { text: "Clean shirt", correct: true, feedback: "Exactly! Ready for school!" }
+        ]
+      }
+    ];
+
+
+
+
+    let currentHygieneScene = 0;
+
+
+
+
+    function loadHygieneLesson() { currentHygieneScene = 0; showHygieneScene(); }
+
+
+
+
+    function showHygieneScene() {
+      if (currentHygieneScene >= hygieneScenes.length) {
+        document.getElementById("lessonContent").innerHTML = `
+          <h2>🎉 Well Done!</h2>
+          <p>You learned how to take care of your hygiene and became a Hygiene Hero!</p>
+          <button class="lesson-btn" onclick="completeLesson('personalHygiene', 'Hygiene Hero Badge')">Finish Lesson ✅</button>
+        `;
+        return;
+      }
+      const scene = hygieneScenes[currentHygieneScene];
+      let html = `<h2>Step ${currentHygieneScene + 1}</h2>
+                  <img class="scene" src="${scene.img}" alt="Scene image">
+                  <p>${scene.text}</p>`;
+      scene.choices.forEach((choice, index) => {
+        html += `<button class="choice-btn" onclick="handleHygieneChoice(${index})">${choice.text}</button>`;
+      });
+      document.getElementById("lessonContent").innerHTML = html;
+    }
+
+
+
+
+    function handleHygieneChoice(choiceIndex) {
+      const scene = hygieneScenes[currentHygieneScene];
+      const choice = scene.choices[choiceIndex];
+      alert(choice.feedback);
+
+
+
+
+      if (scene.multiStep) {
+        if (choice.correct) {
+          scene.choices.splice(choiceIndex, 1);
+        } else { return; }
+        if (scene.choices.length === 0) { currentHygieneScene++; showHygieneScene(); }
+        else { showHygieneScene(); }
+      } else {
+        if (choice.correct) { currentHygieneScene++; showHygieneScene(); }
+      }
+    }
+
+
+
+
+    
+    // ===============================
+    // DEEP BREATHING (4-4-4 box)
+    // ===============================
+    function loadDeepBreathingLesson() {
+      const content = document.getElementById("lessonContent");
+      content.innerHTML = `
+        <h2>🌬️ Deep Breathing</h2>
+        <img class="scene" src="inhale exhale.jpg" alt="Deep breathing visual">
+        <p>Follow the circle and breathe: <strong>Inhale 4</strong>, <strong>Hold 4</strong>, <strong>Exhale 4</strong>. Complete 3 cycles to earn your badge!</p>
+        <div class="breathing-container">
+          <div id="breathingCircle" class="breathing-circle"></div>
+          <div class="phase" id="breathingPhase">Tap Start</div>
+          <div class="counter" id="breathingCounter">Cycles: 0 / 3</div>
+          <div class="control-row">
+            <button id="startBreathing" class="small-btn">▶️ Start</button>
+            <button id="pauseBreathing" class="small-btn">⏸️ Pause</button>
+            <button id="resetBreathing" class="small-btn">↩️ Reset</button>
+          </div>
+        </div>
+        <div id="breathingFinish" class="hidden">
+          <p>Great slow breathing! Your body feels calm.</p>
+          <button class="lesson-btn" onclick="completeLesson('deepBreathing', 'Breathing Buddy Badge')">Finish Lesson ✅</button>
+        </div>
+      `;
+
+
+
+
+      let phaseEl = document.getElementById('breathingPhase');
+      let circleEl = document.getElementById('breathingCircle');
+      let counterEl = document.getElementById('breathingCounter');
+      let finishEl = document.getElementById('breathingFinish');
+
+
+
+
+      const phases = ["Inhale", "Hold", "Exhale"];
+      const durationMs = 1000 * 4; // 4 seconds each
+      let currentPhaseIndex = 0;
+      let cyclesDone = 0;
+      let playing = false;
+      let timer = null;
+
+
+
+
+      function renderPhase() {
+        const phase = phases[currentPhaseIndex];
+        phaseEl.textContent = phase;
+        if (phase === "Inhale")      circleEl.style.transform = "scale(1.2)";
+        else if (phase === "Hold")   circleEl.style.transform = "scale(1.2)";
+        else if (phase === "Exhale") circleEl.style.transform = "scale(0.9)";
+      }
+
+
+
+
+      function nextPhase() {
+        currentPhaseIndex = (currentPhaseIndex + 1) % phases.length;
+        if (currentPhaseIndex === 0) {
+          cyclesDone++;
+          counterEl.textContent = `Cycles: ${cyclesDone} / 3`;
+          if (cyclesDone >= 3) {
+            stop();
+            finishEl.classList.remove("hidden");
+          }
+        }
+        renderPhase();
+      }
+
+
+
+
+      function start() {
+        if (playing) return;
+        playing = true;
+        renderPhase();
+        timer = setInterval(nextPhase, durationMs);
+      }
+
+
+
+
+      function stop() {
+        playing = false;
+        if (timer) { clearInterval(timer); timer = null; }
+      }
+
+
+
+
+      function reset() {
+        stop();
+        currentPhaseIndex = 0;
+        cyclesDone = 0;
+        counterEl.textContent = `Cycles: ${cyclesDone} / 3`;
+        phaseEl.textContent = "Tap Start";
+        circleEl.style.transform = "scale(1)";
+        finishEl.classList.add("hidden");
+      }
+
+
+
+
+      document.getElementById('startBreathing').onclick = start;
+      document.getElementById('pauseBreathing').onclick = stop;
+      document.getElementById('resetBreathing').onclick = reset;
+    }
+ 
+/* ===============================
+   CALM DOWN STRATEGIES
+   Functional scenarios + choices
+================================ */
+let calmDownScenes = [
+  {
+    img: "imagescalm_scenario1.png",
+    text: "Aiden lost his toy and feels angry. What should he do?",
+    choices: [
+      { text: "Scream and throw things", correct: false, feedback: "Nice try! Try Again." },
+      { text: "Hug a pillow and count to 10", correct: true, feedback: "Great choice! That helps the body calm." }
+    ]
+  },
+  {
+    img: "nervous.jpg",
+    text: "Maya feels nervous before a test. Choose the best calming strategy.",
+    choices: [
+      { text: "Take 3 deep breaths", correct: true, feedback: "Yes! Breathing helps your brain focus." },
+      { text: "Say 'I can't do it!' and give up", correct: false, feedback: "Nice try! Try Again." }
+    ]
+  },
+  {
+    img: "LoudLeo.jpg",
+    text: "Leo gets overwhelmed by loud noise in the room. What can he do?",
+    choices: [
+      { text: "Ask for a quiet break", correct: true, feedback: "Perfect! A quiet corner helps regulate." },
+      { text: "Cover ears and shout", correct: false, feedback: "Nice try! Try Again." }
+    ]
+  },
+  {
+    img: "imagescalm_tools.png",
+    text: "Pick TWO tools that help you calm down.",
+    choices: [
+      { text: "Squeeze stress ball", correct: true, feedback: "Good tool!" },
+      { text: "Throw the stress ball", correct: false, feedback: "Nice try! Try Again." },
+      { text: "Ask for a drink of water", correct: true, feedback: "Yes, water break helps." }
+    ],
+    multiStep: true
+  }
+];
+let currentCalmScene = 0;
+
+
+
+
+function loadCalmDownLesson() {
+  currentCalmScene = 0;
+  showCalmScene();
+}
+
+
+
+
+function showCalmScene() {
+  if (currentCalmScene >= calmDownScenes.length) {
+    document.getElementById("lessonContent").innerHTML = `
+      <h2>🧸 Calm & In Control</h2>
+      <p>You practiced calm-down choices and helped your body feel safe!</p>
+      <button class="lesson-btn" onclick="completeLesson('calmDown', 'Calm Captain Badge')">Finish Lesson ✅</button>
+    `;
+    return;
+  }
+  const scene = calmDownScenes[currentCalmScene];
+  let html = `<h2>Scenario ${currentCalmScene + 1}</h2>
+              <img class="scene" src="${scene.img}" alt="Calm scene image">
+              <p>${scene.text}</p>`;
+  scene.choices.forEach((choice, index) => {
+    html += `<button class="choice-btn" onclick="handleCalmChoice(${index})">${choice.text}</button>`;
+  });
+  document.getElementById("lessonContent").innerHTML = html;
+}
+
+
+
+
+function handleCalmChoice(choiceIndex) {
+  const scene = calmDownScenes[currentCalmScene];
+  const choice = scene.choices[choiceIndex];
+  alert(choice.feedback);
+
+
+
+
+  if (scene.multiStep) {
+    if (choice.correct) {
+      scene.choices.splice(choiceIndex, 1);
+    } else { return; }
+    if (scene.choices.filter(c => c.correct).length === 0) { // all correct picked
+      currentCalmScene++;
+      showCalmScene();
+    } else {
+      showCalmScene();
+    }
+  } else {
+    if (choice.correct) { currentCalmScene++; showCalmScene(); }
+  }
+}
+
+
+
+
+    // ===============================
+    // HANDLING MONEY LESSON (IMPROVED)
+    // ===============================
+    const MONEY_FILES = [
+      { value: 1, label: "Php 1", file: "Php 1.webp", type: "coin" },
+      { value: 5, label: "Php 5", file: "Php 5.webp", type: "coin" },
+      { value: 10, label: "Php 10", file: "Php 10.jpg", type: "coin" },
+      { value: 20, label: "Php 20", file: "Php 20.jpeg", type: "bill" },
+      { value: 50, label: "Php 50", file: "Php 50.jpg", type: "bill" },
+      { value: 100, label: "Php 100", file: "Php 100.jpg", type: "bill" },
+      { value: 200, label: "Php 200", file: "Php 200.jpg", type: "bill" },
+      { value: 500, label: "Php 500", file: "Php 500.jpg", type: "bill" },
+      { value: 1000, label: "Php 1000", file: "Php 1000.webp", type: "bill" }
+    ];
+
+
+// State for money lesson
+let moneyStage = 0; // 0=intro,1=matching,2=sorting,3=shop,4=summary
+let matchPool = [];
+let matchIndex = 0;
+let sortItems = [];
+let shopPaid = false;
+
+
+
+
+function loadMoneyLesson() {
+  // reset state
+  moneyStage = 0;
+  matchPool = [];
+  matchIndex = 0;
+  sortItems = [];
+  shopPaid = false;
+  renderMoneyStage();
+}
+
+
+
+
+function renderMoneyStage() {
+  const content = document.getElementById("lessonContent");
+  // Stage navigation: only one activity visible at a time
+  if (moneyStage === 0) {
+    // INTRO: show images and start button
+    content.innerHTML = `
+      <h2>💰 Handling Money</h2>
+      <p class="small">“This is our money, the Philippine Peso. We use it every day to buy food, toys, clothes, or to pay for rides.”</p>
+      <h3>Pictures: Coins & Bills</h3>
+      <div class="money-gallery" id="moneyGallery"></div>
+      <div class="money-controls">
+        <button class="lesson-btn" id="startMatchingBtn">Start: Identify Money (Matching)</button>
+      </div>
+      <p class="muted">You will do 3 short games in order: <strong>Identify → Sort → Shop</strong>.</p>
+    `;
+    // populate gallery
+    const gallery = document.getElementById("moneyGallery");
+    gallery.innerHTML = "";
+    MONEY_FILES.forEach(m => {
+      const c = document.createElement("div");
+      c.className = "money-card";
+      c.innerHTML = `<img src="${m.file}" alt="${m.label}"><div class="money-label">${m.label}</div>`;
+      gallery.appendChild(c);
+    });
+    document.getElementById("startMatchingBtn").onclick = () => { moneyStage = 1; initMatching(); renderMoneyStage(); };
+    return;
+  }
+
+
+
+
+  if (moneyStage === 1) {
+    // MATCHING GAME
+    content.innerHTML = `
+      <h2>🔎 Identify the Coin / Bill</h2>
+      <p class="small">Look at the picture. Choose the correct value.</p>
+      <div id="matchingArea"></div>
+      <div class="money-controls">
+        <button class="lesson-btn" id="backToIntroBtn">Back</button>
+      </div>
+    `;
+    document.getElementById("backToIntroBtn").onclick = () => { moneyStage = 0; renderMoneyStage(); };
+    renderMatchingUI();
+    return;
+  }
+
+
+
+
+  if (moneyStage === 2) {
+    // SORTING GAME
+    content.innerHTML = `
+      <h2>↕️ Sorting: Smallest → Largest</h2>
+      <p class="small">Drag each money into the slots from least value to greatest value.</p>
+      <div id="sortingArea"></div>
+      <div class="money-controls">
+        <button class="lesson-btn" id="backToMatchBtn">Back to Identify</button>
+      </div>
+    `;
+    document.getElementById("backToMatchBtn").onclick = () => { moneyStage = 1; renderMoneyStage(); };
+    renderSortingUI();
+    return;
+  }
+
+
+
+
+  if (moneyStage === 3) {
+    // SHOP SIMULATION
+    content.innerHTML = `
+      <h2>🛒 Digital Shop Simulation</h2>
+      <p class="small">Choose money to pay for the item. Practice making the right total and getting change.</p>
+      <div id="shopArea"></div>
+      <div class="money-controls">
+        <button class="lesson-btn" id="backToSortBtn">Back to Sorting</button>
+      </div>
+    `;
+    document.getElementById("backToSortBtn").onclick = () => { moneyStage = 2; renderMoneyStage(); };
+    renderShopUI();
+    return;
+  }
+
+
+
+
+  if (moneyStage === 4) {
+    // SUMMARY / FINISH
+    content.innerHTML = `
+      <h2>🎉 Money Lesson Complete!</h2>
+      <p class="small">Great job — you practiced identifying money, sorting values, and paying for an item.</p>
+      <div class="money-controls">
+        <button class="lesson-btn" id="finishMoneyBtn">Finish Lesson & Earn Badge</button>
+        <button class="lesson-btn" id="restartMoneyBtn">Do Again</button>
+      </div>
+    `;
+    document.getElementById("finishMoneyBtn").onclick = () => {
+      completeLesson('handlingMoney','Money Master Badge');
+      // go back to lesson selection but keep lesson content visible
+      // optionally we can go back to main screen
+    };
+    document.getElementById("restartMoneyBtn").onclick = () => { loadMoneyLesson(); };
+    return;
+  }
+}
+
+
+
+
+/* -------------------------
+   MATCHING GAME HELPERS
+   ------------------------- */
+function initMatching() {
+  // prepare a shuffled pool
+  matchPool = shuffleArray(MONEY_FILES.slice());
+  matchIndex = 0;
+}
+
+
+
+
+function renderMatchingUI() {
+  const area = document.getElementById("matchingArea");
+  if (!area) return;
+  area.innerHTML = "";
+  if (matchIndex >= matchPool.length) {
+    area.innerHTML = `
+      <p class="muted">You've identified all items!</p>
+      <div class="money-controls">
+        <button class="lesson-btn" id="toSortBtn">Proceed to Sorting</button>
+      </div>
+    `;
+    document.getElementById("toSortBtn").onclick = () => { moneyStage = 2; renderMoneyStage(); };
+    return;
+  }
+  const target = matchPool[matchIndex];
+  // create 4 options (target + 3 random)
+  const options = [target];
+  while (options.length < 4) {
+    const cand = MONEY_FILES[Math.floor(Math.random()*MONEY_FILES.length)];
+    if (!options.find(o => o.value === cand.value)) options.push(cand);
+  }
+  const shuffled = shuffleArray(options);
+
+
+
+
+  let html = `
+    <img class="match-img" src="${target.file}" alt="${target.label}">
+    <div id="matchButtons" class="draggable-list"></div>
+    <p id="matchFeedback" class="muted"></p>
+  `;
+  area.innerHTML = html;
+
+
+
+
+  const buttonsDiv = document.getElementById("matchButtons");
+  shuffled.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "lesson-btn";
+    btn.textContent = opt.label;
+    btn.onclick = () => {
+      const fb = document.getElementById("matchFeedback");
+      if (opt.value === target.value) {
+        fb.textContent = "✅ Correct!";
+        fb.className = "";
+        // small delay then advance
+        setTimeout(() => {
+          matchIndex++;
+          renderMatchingUI();
+        }, 700);
+      } else {
+        fb.textContent = "❌ Nice Try! Try Again.";
+        fb.className = "";
+      }
+    };
+    buttonsDiv.appendChild(btn);
+  });
+}
+
+
+
+
+/* -------------------------
+   SORTING GAME HELPERS
+   ------------------------- */
+function renderSortingUI() {
+  // pick subset for sorting to keep task focused (we can use all, but let's use 6)
+  sortItems = shuffleArray(MONEY_FILES.slice()).slice(0, 6);
+  const area = document.getElementById("sortingArea");
+  area.innerHTML = "";
+
+
+
+
+  // Slots
+  const slotsRow = document.createElement("div");
+  slotsRow.className = "sort-row";
+  area.appendChild(slotsRow);
+
+
+
+
+  // create slots equal to number of items
+  for (let i = 0; i < sortItems.length; i++) {
+    const slot = document.createElement("div");
+    slot.className = "sort-slot drop-zone";
+    slot.dataset.slotIndex = i;
+    slot.addEventListener("dragover", e => e.preventDefault());
+    slot.addEventListener("drop", onDropToSortSlotImproved);
+    slotsRow.appendChild(slot);
+  }
+
+
+
+
+
+
+
+
+  // Pool of draggable items
+  const poolTitle = document.createElement("p");
+  poolTitle.textContent = "Drag these into the slots:";
+  area.appendChild(poolTitle);
+
+
+
+
+  const pool = document.createElement("div");
+  pool.id = "sortPool";
+  pool.style.display = "flex";
+  pool.style.gap = "8px";
+  pool.style.justifyContent = "center";
+  pool.style.flexWrap = "wrap";
+
+
+
+
+  sortItems.forEach(m => {
+    const it = createDraggableMoney(m);
+    pool.appendChild(it);
+  });
+  area.appendChild(pool);
+
+
+
+
+  // Controls
+  const controls = document.createElement("div");
+  controls.className = "money-controls";
+  controls.innerHTML = `<button class="lesson-btn" id="checkSortBtn">Check Order</button>
+                        <button class="lesson-btn" id="shuffleSortBtn">Shuffle</button>
+                        <button class="lesson-btn" id="clearSlotsBtn">Clear Slots</button>
+                        <div id="sortFeedback" class="muted" style="width:100%"></div>`;
+  area.appendChild(controls);
+
+
+
+
+  document.getElementById("checkSortBtn").onclick = checkSortOrder;
+  document.getElementById("shuffleSortBtn").onclick = () => { renderSortingUI(); };
+  document.getElementById("clearSlotsBtn").onclick = () => {
+    const slots = Array.from(document.querySelectorAll(".sort-slot"));
+    slots.forEach(s => { s.innerHTML = ""; delete s.dataset.placed; });
+    // rebuild pool
+    const pool = document.getElementById("sortPool");
+    if (pool) { pool.innerHTML = ""; sortItems.forEach(m => pool.appendChild(createDraggableMoney(m))); }
+    document.getElementById("sortFeedback").textContent = "";
+  };
+  // allow dragging items from slots back to pool by making pool a drop target
+  const poolDiv = document.getElementById("sortPool");
+  poolDiv.addEventListener("dragover", e => e.preventDefault());
+  poolDiv.addEventListener("drop", e => {
+    e.preventDefault();
+    const data = e.dataTransfer.getData("text/plain");
+    if (!data) return;
+    const obj = JSON.parse(data);
+    // remove from any slot that had this item
+    const slotWith = Array.from(document.querySelectorAll(".sort-slot")).find(s => s.dataset.placed && JSON.parse(s.dataset.placed).value === obj.value);
+    if (slotWith) {
+      delete slotWith.dataset.placed;
+      slotWith.innerHTML = "";
+    }
+    // add back to pool (if not already present)
+    if (!Array.from(poolDiv.children).some(ch => Number(ch.dataset.value) === Number(obj.value))) {
+      poolDiv.appendChild(createDraggableMoney(obj));
+    }
+  });
+}
+
+
+
+
+function onDropToSortSlotImproved(e) {
+  e.preventDefault();
+  const dataRaw = e.dataTransfer.getData("text/plain");
+  if (!dataRaw) return;
+  const data = JSON.parse(dataRaw);
+  const slot = e.currentTarget;
+
+
+
+
+  // if slot already has item, return it to pool
+  if (slot.dataset.placed) {
+    const prev = JSON.parse(slot.dataset.placed);
+    addToSortPool(prev);
+  }
+
+
+
+
+  // set slot content
+  slot.innerHTML = `<div style="width:100%;height:100%; display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <img src="${data.file}" style="max-width:90px;max-height:50px;object-fit:contain">
+    <div class="small">${data.label}</div>
+  </div>`;
+  slot.dataset.placed = JSON.stringify(data);
+
+
+
+
+  // remove from pool if exists
+  const pool = document.getElementById("sortPool");
+  if (pool) {
+    const found = Array.from(pool.children).find(ch => Number(ch.dataset.value) === Number(data.value));
+    if (found) found.remove();
+  }
+}
+
+
+
+
+function createDraggableMoney(m) {
+  const it = document.createElement("div");
+  it.className = "draggable-item";
+  it.draggable = true;
+  it.dataset.value = m.value;
+  it.dataset.label = m.label;
+  it.innerHTML = `<img src="${m.file}" style="width:100%;height:50px;object-fit:contain"><div class="small" style="margin-top:6px">${m.label}</div>`;
+  it.addEventListener("dragstart", e => {
+    e.dataTransfer.setData("text/plain", JSON.stringify({value:m.value, file:m.file, label:m.label}));
+  });
+  return it;
+}
+
+
+
+
+function addToSortPool(data) {
+  const pool = document.getElementById("sortPool");
+  if (!pool) return;
+  // avoid duplicates
+  if (Array.from(pool.children).some(ch => Number(ch.dataset.value) === Number(data.value))) return;
+  const it = createDraggableMoney(data);
+  pool.appendChild(it);
+}
+
+
+
+
+function checkSortOrder() {
+  const feedback = document.getElementById("sortFeedback");
+  const slots = Array.from(document.querySelectorAll(".sort-slot"));
+  const placed = slots.map(s => s.dataset.placed ? JSON.parse(s.dataset.placed).value : null);
+  if (placed.includes(null)) {
+    feedback.textContent = "Please place all items into the slots before checking.";
+    return;
+  }
+  const isAscending = placed.every((v,i,arr) => i===0 ? true : arr[i-1] <= v);
+  if (isAscending) {
+    feedback.textContent = "✅ Correct order! Well done.";
+    // proceed automatically to shop after a short delay
+    setTimeout(() => { moneyStage = 3; renderMoneyStage(); }, 900);
+  } else {
+    feedback.textContent = "❌ Not quite — try again, smallest to largest.";
+  }
+}
+
+
+
+
+
+
+
+
+/* -------------------------
+   SHOP SIMULATION HELPERS
+   ------------------------- */
+function renderShopUI() {
+  const area = document.getElementById("shopArea");
+  area.innerHTML = ""
+
+
+
+
+  // define item and price
+  const item = { name: "Biscuit", price: 15, img: "Php 10.jpg" }
+
+
+
+
+  const left = document.createElement("div");
+  left.className = "shop-item";
+  left.innerHTML = `<strong>Item:</strong> ${item.name}<br><strong>Price:</strong> ₱${item.price}
+    <div style="margin-top:10px;"><img src="${item.img}" alt="${item.name}" style="width:90px;height:60px;object-fit:contain"></div>`;
+
+
+
+
+  const right = document.createElement("div");
+  right.className = "cart";
+  right.innerHTML = `<strong>Your Money (drag here):</strong><div id="cartZone" class="drop-zone"></div>
+    <p class="small">Total: ₱<span id="cartTotal">0</span></p>
+    <div class="money-controls"><button class="lesson-btn" id="payBtn">Pay ₱${item.price}</button>
+    <button class="lesson-btn" id="clearCartBtn">Clear Cart</button></div>
+    <div id="shopFeedback" class="muted" style="margin-top:8px"></div>`;
+
+
+
+
+  const shopWrap = document.createElement("div");
+  shopWrap.className = "shop";
+  shopWrap.appendChild(left);
+  shopWrap.appendChild(right);
+
+
+
+
+  area.appendChild(shopWrap);
+
+
+
+
+  // shop pool (all money)
+  const poolTitle = document.createElement("p");
+  poolTitle.textContent = "Drag money from here:";
+  area.appendChild(poolTitle);
+
+
+
+
+  const pool = document.createElement("div");
+  pool.id = "shopPool";
+  pool.style.display = "flex";
+  pool.style.gap = "8px";
+  pool.style.justifyContent = "center";
+  pool.style.flexWrap = "wrap";
+  MONEY_FILES.forEach(m => {
+    const it = document.createElement("div");
+    it.className = "draggable-item";
+    it.draggable = true;
+    it.dataset.value = m.value;
+    it.dataset.file = m.file;
+    it.dataset.label = m.label;
+    it.innerHTML = `<img src="${m.file}" style="width:100px;height:60px;object-fit:contain"><div class="small" style="margin-top:6px">${m.label}</div>`;
+    it.addEventListener("dragstart", e => {
+      e.dataTransfer.setData("text/plain", JSON.stringify({value:m.value, file:m.file, label:m.label}));
+    });
+    pool.appendChild(it);
+  });
+  area.appendChild(pool);
+
+
+
+
+  // cart drop handling
+  const cartZone = document.getElementById("cartZone");
+  cartZone.addEventListener("dragover", e => e.preventDefault());
+  cartZone.addEventListener("drop", e => {
+    e.preventDefault();
+    const dataRaw = e.dataTransfer.getData("text/plain");
+    if (!dataRaw) return;
+    const data = JSON.parse(dataRaw);
+    // create cart item element
+    const itemDiv = document.createElement("div");
+    itemDiv.style.display = "flex";
+    itemDiv.style.alignItems = "center";
+    itemDiv.style.gap = "8px";
+    itemDiv.style.margin = "4px 0";
+    itemDiv.dataset.value = data.value;
+    itemDiv.innerHTML = `<img src="${data.file}" style="width:40px;height:26px;object-fit:contain"><div class="small">${data.label}</div><div style="margin-left:8px"><button class="remove-btn">Remove</button></div>`;
+    cartZone.appendChild(itemDiv);
+    updateCartTotal();
+    // remove one matching draggable from pool to prevent infinite reuse
+    const poolDiv = document.getElementById("shopPool");
+    if (poolDiv) {
+      const cand = Array.from(poolDiv.children).find(ch => Number(ch.dataset.value) === Number(data.value));
+      if (cand) cand.remove();
+    }
+  });
+
+
+
+
+  // handle remove (using event delegation)
+  cartZone.addEventListener("click", e => {
+    if (e.target && e.target.classList.contains("remove-btn")) {
+      // find the cart item wrapper that has dataset.value
+      let itemRow = e.target;
+      while (itemRow && !itemRow.dataset.value) {
+        itemRow = itemRow.parentElement;
+      }
+      if (!itemRow) {
+        // fallback: search parent nodes
+        itemRow = e.target.closest("div[data-value]");
+      }
+      if (!itemRow) return;
+      const value = Number(itemRow.dataset.value);
+      // return to shop pool
+      const m = MONEY_FILES.find(x => x.value === value);
+      if (m) {
+        const poolDiv = document.getElementById("shopPool");
+        if (poolDiv) {
+          const it = document.createElement("div");
+          it.className = "draggable-item";
+          it.draggable = true;
+          it.dataset.value = m.value;
+          it.dataset.file = m.file;
+          it.dataset.label = m.label;
+          it.innerHTML = `<img src="${m.file}" style="width:100px;height:60px;object-fit:contain"><div class="small" style="margin-top:6px">${m.label}</div>`;
+          it.addEventListener("dragstart", ev => {
+            ev.dataTransfer.setData("text/plain", JSON.stringify({value:m.value, file:m.file, label:m.label}));
+          });
+          poolDiv.appendChild(it);
+        }
+      }
+      // remove item from cart
+      itemRow.remove();
+      updateCartTotal();
+    }
+  });
+
+
+
+
+  document.getElementById("payBtn").onclick = () => {
+    const price = item.price;
+    const total = Number(document.getElementById("cartTotal").textContent) || 0;
+    const fb = document.getElementById("shopFeedback");
+    if (total < price) {
+      fb.textContent = `You gave ₱${total}. The item costs ₱${price}. You need ₱${price - total} more.`;
+      fb.className = "muted wrong";
+      return;
+    }
+    const change = total - price;
+    fb.textContent = `Payment accepted. Your change: ₱${change}. Great job!`;
+    fb.className = "muted";
+    shopPaid = true;
+    // proceed automatically to summary
+    setTimeout(() => { moneyStage = 4; renderMoneyStage(); }, 900);
+  };
+
+
+
+
+  document.getElementById("clearCartBtn").onclick = () => {
+    const cartZone = document.getElementById("cartZone");
+    // return each item to pool
+    const items = Array.from(cartZone.children);
+    items.forEach(row => {
+      const val = Number(row.dataset.value);
+      const m = MONEY_FILES.find(x => x.value === val);
+      if (m) {
+        const poolDiv = document.getElementById("shopPool");
+        if (poolDiv) {
+          const it = document.createElement("div");
+          it.className = "draggable-item";
+          it.draggable = true;
+          it.dataset.value = m.value;
+          it.dataset.file = m.file;
+          it.dataset.label = m.label;
+          it.innerHTML = `<img src="${m.file}" style="width:100px;height:60px;object-fit:contain"><div class="small" style="margin-top:6px">${m.label}</div>`;
+          it.addEventListener("dragstart", ev => {
+            ev.dataTransfer.setData("text/plain", JSON.stringify({value:m.value, file:m.file, label:m.label}));
+          });
+          poolDiv.appendChild(it);
+        }
+      }
+      row.remove();
+    });
+    updateCartTotal();
+    document.getElementById("shopFeedback").textContent = "";
+  };
+}
+
+
+
+
+function updateCartTotal() {
+  const items = Array.from(document.getElementById("cartZone").children);
+  const total = items.reduce((s,it) => s + (Number(it.dataset.value)||0), 0);
+  document.getElementById("cartTotal").textContent = total;
+}
+
+
+
+
+/* -------------------------
+   UTILS
+   ------------------------- */
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+
+// ===============================
+// SAFETY IN PUBLIC (Placeholder)
+// ===============================
+function loadTakingTurnsLesson() {
+  const turnScenes = [
+    {
+      img: "ballplay.jpg",
+      text: "Hugo and Jane both want to play with the ball. What should they do?",
+      choices: [
+        { text: "Grab the ball first", correct: false, feedback: "Try again! That's not fair to Mia." },
+        { text: "Ask, 'Can I have a turn after you?'", correct: true, feedback: "Great! Taking turns means waiting politely." },
+        { text: "Walk away and not play", correct: false, feedback: "Try again! It's better to take turns." }
+      ]
+    },
+    {
+      img: "playing.avif",
+      text: "Jerry and Ace are playing a game. Belle is waiting for Ace to be done. What can Belle do while waiting?",
+      choices: [
+        { text: "Watch and cheer for Jerry and Ace", correct: true, feedback: "Yes! Watching and cheering is a good way to wait." },
+        { text: "Complain loudly", correct: false, feedback: "Try again! Complaining isn't polite." },
+        { text: "Take the game away", correct: false, feedback: "Try again! That's not taking turns." }
+      ]
+    },
+        {
+      img: "girlplay.webp",
+      text: "Now it's Belle's turn! What should Ace do?",
+      choices: [
+        { text: "Let Belle and Jerry play and wait for his next turn", correct: true, feedback: "Correct! Now Belle waits for her turn." },
+        { text: "Do not let Belle have the controller", correct: false, feedback: "Try again! That is not respectful." },
+        { text: "Hide the controller from Belle", correct: false, feedback: "Try again! That is not respectful." }
+      ]
+    },
+    {
+      img: "boardgame.webp",
+      text: "The family is playing a board game. It’s Jason’s turn, but Kayla wants to roll the dice. What should Kayla do?",
+      choices: [
+        { text: "Grab the dice from Jason", correct: false, feedback: "Not quite! That’s not fair." },
+        { text: "Say, 'Skip Jason’s turn!'", correct: false, feedback: "Nope! That wouldn’t be respectful." },
+        { text: "Wait until Jason finishes his turn", correct: true, feedback: "Correct! Everyone gets a turn." }
+      ]
+    },
+    {
+     img: "tvremote.webp",
+      text: "George and his sister both want to watch TV. What should they do?",
+     choices: [
+        { text: "Grab the remote and change the channel", correct: false, feedback: "Not quite! That’s not fair." },
+        { text: "Take turns picking a show", correct: true, feedback: "Correct! Sharing the remote is fair." },
+        { text: "Argue until one gives up", correct: false, feedback: "Nope! That doesn’t solve the problem." }
+      ]
+    },
+    {
+     img: "swing.jpg",
+      text: "Lily is on the swing and Noah wants a turn. What should Noah do?",
+     choices: [
+        { text: "Ask, 'Can I have a turn when you're done?'", correct: true, feedback: "Great! That’s how to take turns politely." },
+        { text: "Push Lily off the swing", correct: false, feedback: "Not quite! That’s not safe or respectful." },
+        { text: "Leave without asking", correct: false, feedback: "Nope! He can still ask politely." }
+      ]
+    }
+  ];
+  let currentTurnScene = 0;
+
+
+
+
+  function showTurnScene() {
+    if (currentTurnScene >= turnScenes.length) {
+      document.getElementById("lessonContent").innerHTML = `
+        <h2>🎉 Great Job!</h2>
+        <p>You learned how to take turns. You earned the Turn Taker Badge!</p>
+        <button class="lesson-btn" onclick="completeLesson('takingTurns', 'Turn Taker Badge')">Finish Lesson ✅</button>
+      `;
+      return;
+    }
+    const scene = turnScenes[currentTurnScene];
+    let html = `<h2>Turn ${currentTurnScene + 1}</h2>
+      <img class="scene" src="${scene.img}" alt="Taking turns scene">
+      <p>${scene.text}</p>`;
+    scene.choices.forEach((choice, idx) => {
+      html += `<button class="choice-btn" onclick="handleTurnChoice(${idx})">${choice.text}</button>`;
+    });
+    document.getElementById("lessonContent").innerHTML = html;
+  }
+
+
+
+
+  window.handleTurnChoice = function(idx) {
+    const scene = turnScenes[currentTurnScene];
+    const choice = scene.choices[idx];
+    alert(choice.feedback);
+    if (choice.correct) {
+      currentTurnScene++;
+      showTurnScene();
+    }
+  };
+
+
+
+
+  showTurnScene();
+}
+function loadBodyLanguageLesson() {
+  const bodyScenes = [
+    {
+      img: "happyalex.webp",
+      text: "Look at Alex. His eyes are crinkling at the corners, he's smiling, and his arms are open. How do you think Alex feels?",
+      choices: [
+        { text: "Happy", correct: true, feedback: "Correct! Smiling and open arms show happiness." },
+        { text: "Angry", correct: false, feedback: "Try again! Look at his smile and open arms." },
+        { text: "Scared", correct: false, feedback: "Try again! Alex doesn't look scared." }
+      ]
+    },
+    {
+      img: "angryjamie.jpg",
+      text: "This is Jamie. Jamie's eyebrows are down, arms are crossed, and lips are tight. What is Jamie feeling?",
+      choices: [
+        { text: "Excited", correct: false, feedback: "Try again! Jamie doesn't look excited." },
+        { text: "Angry", correct: true, feedback: "Correct! Crossed arms and tight lips show anger." },
+        { text: "Sad", correct: false, feedback: "Try again! Jamie doesn't look sad." }
+      ]
+    },
+    {
+      img: "scaredsam.jpg",
+      text: "Here is Sam. Sam's eyes are wide, mouth is open, and shoulders are up. What is Sam feeling?",
+      choices: [
+        { text: "Scared", correct: true, feedback: "Correct! Wide eyes and raised shoulders show fear." },
+        { text: "Happy", correct: false, feedback: "Try again! Sam doesn't look happy." },
+        { text: "Tired", correct: false, feedback: "Try again! Sam doesn't look tired." }
+      ]
+    },
+    {
+      img: "sadallan.jpg",
+      text: "Look at Allan. His mouth is turned down, and he has tears in his eyes. How do you think Allan feels?",
+      choices: [
+        { text: "Sad", correct: true, feedback: "Correct! Tears means sadness." },
+        { text: "Angry", correct: false, feedback: "Try again! Look at his smile and open arms." },
+        { text: "Scared", correct: false, feedback: "Try again! Allan doesn't look scared." }
+      ]
+    },
+    {
+      img: "tiredsophie.jpg",
+      text: "This is Sophie. Her eyes are closed, she’s yawning, and her shoulders are slouched. How do you think Sophie feels?",
+      choices: [
+        { text: "Excited", correct: false, feedback: "Try again! Sophie doesn't look excited." },
+        { text: "Tired", correct: true, feedback: "Correct! Closed eyes and yawning show tiredness." },
+        { text: "Sad", correct: false, feedback: "Try again! Sophie doesn't look sad." }
+      ]
+    }
+  ];
+  let currentBodyScene = 0;
+
+
+  function showBodyScene() {
+    if (currentBodyScene >= bodyScenes.length) {
+      document.getElementById("lessonContent").innerHTML = `
+        <h2>🎉 Awesome!</h2>
+        <p>You learned to read body language. You earned the Body Language Detective Badge!</p>
+        <button class="lesson-btn" onclick="completeLesson('bodyLanguage', 'Body Language Detective Badge')">Finish Lesson ✅</button>
+      `;
+      return;
+    }
+    const scene = bodyScenes[currentBodyScene];
+    let html = `<h2>Body Language ${currentBodyScene + 1}</h2>
+      <img class="scene" src="${scene.img}" alt="Body language scene">
+      <p>${scene.text}</p>`;
+    scene.choices.forEach((choice, idx) => {
+      html += `<button class="choice-btn" onclick="handleBodyChoice(${idx})">${choice.text}</button>`;
+    });
+    document.getElementById("lessonContent").innerHTML = html;
+  }
+
+
+
+
+  window.handleBodyChoice = function(idx) {
+    const scene = bodyScenes[currentBodyScene];
+    const choice = scene.choices[idx];
+    alert(choice.feedback);
+    if (choice.correct) {
+      currentBodyScene++;
+      showBodyScene();
+    }
+  };
+
+
+
+
+  showBodyScene();
+}
+
+
+
+
+/* ===============================
+   SAFETY IN PUBLIC LESSON
+   - Stage-based, interactive
+   - Sorting (Safe / Unsafe) blocks progression
+   - Matching (drag & drop) blocks progression
+================================ */
+let safetyStage = 0; // 0 intro,1 stranger,2 street,3 lost,4 emergency,5 sorting,6 matching,7 finish
+let safetySortingState = [];
+let safetyMatchPairs = [];
+
+
+
+
+function loadSafetyPublic() {
+  safetyStage = 0;
+  safetySortingState = [];
+  safetyMatchPairs = [];
+  renderSafetyStage();
+}
+
+
+
+
+
+
+
+
+function renderSafetyStage() {
+  const content = document.getElementById('lessonContent');
+  if (safetyStage === 0) {
+    // INTRO
+    content.innerHTML = `
+      <h2>🟢 Safety in Public — Introduction</h2>
+      <div class="safety-intro-images">
+        <div class="safety-card"><img src="park.webp" alt="park"><div class="small">Park</div></div>
+        <div class="safety-card"><img src="street.jpg" alt="street"><div class="small">Street</div></div>
+        <div class="safety-card"><img src="mall.jpg" alt="mall"><div class="small">Mall</div></div>
+      </div>
+      <p class="small">Where do you go with your family? Are there many people in these places? (Yes!)</p>
+      <p>Public places are where many people go. It’s important to stay safe so we don’t get lost or hurt.</p>
+      <div class="money-controls"><button class="lesson-btn" id="toStrangerBtn">Next: Stranger Danger</button></div>
+    `;
+    document.getElementById('toStrangerBtn').onclick = () => { safetyStage = 1; renderSafetyStage(); };
+    return;
+  }
+
+
+
+
+  if (safetyStage === 1) {
+    // Stranger Awareness
+    content.innerHTML = `
+      <h2>🟡 Stranger Dangers</h2>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <div class="safety-card"><img src="family.jpg" alt="family"><div class="small">Family — safe people</div></div>
+        <div class="safety-card"><img src="stranger.webp" alt="stranger"><div class="small">Person we don't know — stranger</div></div>
+      </div>
+      <div class="s-row">
+          <div class="s-col s-card">
+            <h3>Who is a stranger?</h3>
+            <p>A stranger is anyone you don’t know well. Not all strangers are bad (police, teachers, store workers can be helpers), but some may try to trick or harm. Rule: if unsure, be careful and follow the safety rules below.</p>
+            <ul>
+              <li>Offers candy or gifts → Say <strong>No, thank you</strong> and move away.</li>
+              <li>Asks you to go somewhere → <strong>Never</strong> go alone.</li>
+              <li>Asks for personal info → Do not share.</li>
+            </ul>
+          </div>       
+
+
+
+
+      <p class="small">A stranger is someone we don’t know well. However, not all strangers are bad, but we must be careful.</p>
+      <ul style="text-align:left;display:inline-block;">
+        <li>🚫 Don’t go with them</li>
+        <li>🚫 Don’t take gifts or food</li>
+        <li>✅ Say “No” and walk away</li>
+        <li>✅ Find a safe adult (police officer 👮, security guard, teacher 👩‍🏫, parent 👩‍👦)</li>
+      </ul>
+      <div class="money-controls"><button class="lesson-btn" id="toStreetBtn">Next: Street Safety</button></div>
+    `;
+    document.getElementById('toStreetBtn').onclick = () => { safetyStage = 2; renderSafetyStage(); };
+    return;
+  }
+
+
+
+
+  if (safetyStage === 2) {
+    // Street Safety
+    content.innerHTML = `
+      <h2>🟡 Street Safety</h2>
+      <p>Traffic lights MEANINGS:
+        <ol style="text-align:left;display:inline-block;">
+        <li>🔴Red = STOP ✋,  
+        <li>🟢Green = GO 🚶,  
+        <li>🟡Yellow = SLOW DOWN</p>	
+          </ol>
+      <h3>Steps to Safe Crossing</h3>
+          <ol style="text-align:left;display:inline-block;">
+            <li>Stop at the edge of the sidewalk✋</li>
+            <li>Look left and right👀</li>
+            <li>Listen for cars🚗</li>
+            <li>Cross when safe (use walk signal or hold adult's hand)🚶</li>
+          </ol>
+
+
+
+
+      <div class="money-controls"><button class="lesson-btn" id="toLostBtn">Next: If You Get Lost</button></div>
+    `;
+    document.getElementById('toLostBtn').onclick = () => { safetyStage = 3; renderSafetyStage(); };
+    return;
+  }
+
+
+
+
+  if (safetyStage === 3) {
+    // Getting Lost
+    content.innerHTML = `
+      <h2>🟡 If You Get Lost</h2>
+      <ol style="text-align:left;display:inline-block;">
+        <li>Stay where you are 🚫🏃</li>
+        <li>Look for a safe adult 👮👩‍🏫</li>
+        <li>Tell them your name: "My name is ___"</li>
+        <li>Tell them your parent's name or phone number 📱</li>
+      </ol>
+      <p class="small">Practice role-play: "My name is [child]. I am lost. Please help me find my mom/dad."</p>
+      <div class="money-controls"><button class="lesson-btn" id="toEmergencyBtn">Next: Emergency Situations</button></div>
+    `;
+    document.getElementById('toEmergencyBtn').onclick = () => { safetyStage = 4; renderSafetyStage(); };
+    return;
+  }
+
+
+
+
+  if (safetyStage === 4) {
+    content.innerHTML = `
+      <h2>🟡 Emergency Situations</h2>
+      <p>Teach: Call 911 only for real emergencies:</p>
+      <ul style="text-align:left;display:inline-block;">
+        <li>🔥 Fire = Call 911</li>
+        <li>🚨 Someone hurt = Call 911</li>
+        <li>🚓 Police needed = Call 911</li>
+      </ul>
+      <p class="small">Only call in real emergencies. Do not call for fun.</p>
+      <div class="money-controls"><button class="lesson-btn" id="toActivitiesBtn">Next: Activities</button></div>
+    `;
+    document.getElementById('toActivitiesBtn').onclick = () => { safetyStage = 5; renderSafetyStage(); };
+    return;
+  }
+
+
+
+
+  if (safetyStage === 5) {
+    // Sorting Game (Safe or Unsafe)
+    content.innerHTML = `
+      <h2>🔴 Activity 1: Sorting Game (Safe or Unsafe)</h2>
+      <p class="small">Tap a card ONCE to mark it as <strong>Safe</strong>. Tap a card TWICE to mark as <strong>Unsafe</strong>. You must correctly classify all cards to proceed.</p>
+      <div id="safetySortingArea"></div>
+      <div class="money-controls"><button class="lesson-btn" id="checkSafetySortBtn">Check Answers</button></div>
+    `;
+    initSafetySorting();
+    document.getElementById('checkSafetySortBtn').onclick = () => { checkSafetySorting(); };
+    return;
+  }
+
+
+
+
+  if (safetyStage === 6) {
+    // Matching Game (helpers)
+    content.innerHTML = `
+      <h2>🔴 Activity 2: Matching Game (Helpers)</h2>
+      <p class="small">Drag the helper (left) to the matching job description (right). All pairs must be correct to finish.</p>
+      <div id="safetyMatchArea" style="display:flex;gap:20px;justify-content:center;align-items:flex-start;flex-wrap:wrap;"></div>
+      <div class="money-controls"><button class="lesson-btn" id="checkSafetyMatchBtn">Check Matches</button></div>
+    `;
+    initSafetyMatching();
+    document.getElementById('checkSafetyMatchBtn').onclick = () => { checkSafetyMatching(); };
+    return;
+  }
+
+
+
+
+  if (safetyStage === 7) {
+    content.innerHTML = `
+      <h2>🎉 Safety in Public Complete!</h2>
+      <p class="small">Great job — you learned stranger awareness, street safety, what to do if you get lost, and practiced activities.</p>
+      <div class="money-controls"><button class="lesson-btn" id="finishSafetyBtn">Finish Lesson & Earn Badge</button></div>
+    `;
+    document.getElementById('finishSafetyBtn').onclick = () => { completeLesson('safetyPublic','Public Safety Badge'); };
+    return;
+  }
+}
+/* ===== Sorting game internals ===== */
+const safetySortItems = [
+  {text: "Walking with parent", safe:true},
+  {text: "Taking candy from a stranger", safe:false},
+  {text: "Crossing at a crosswalk", safe:true},
+  {text: "Running into the street", safe:false},
+  {text: "Asking a police officer for help", safe:true},
+  {text: "Talking to strangers alone", safe:false},
+  {text: "Holding an adult’s hand near the street", safe:true},
+  {text: "Crossing the street without looking", safe:false},
+  {text: "Leaving the mall/store without telling your parent", safe:false},
+  {text: "Wearing a seatbelt in the car", safe:true},
+  {text: "Playing near fire", safe:false},
+  {text: "Telling a parent if you feel lost", safe:true},
+  {text: "Going with someone you don’t know", safe:false},
+  {text: "Answering the door to strangers at home", safe:false}
+];
+function initSafetySorting() {
+  safetySortingState = shuffleArray(safetySortItems).slice(0, 10); // show 10 to keep it short
+  renderSafetySortingUI();
+}
+function renderSafetySortingUI() {
+  const area = document.getElementById('safetySortingArea');
+  area.innerHTML = '';
+  const isDark = document.body.classList.contains('dark-mode');
+  safetySortingState.forEach((it, idx) => {
+    const div = document.createElement('div');
+    div.className = 'sort-card';
+    div.textContent = it.text;
+    div.dataset.safe = it.safe;
+    div.dataset.state = 'neutral';
+    // Set initial styles for dark/light mode
+    if (isDark) {
+      div.style.background = '#232526';
+      div.style.color = '#ffe082';
+      div.style.borderColor = '#ffe082';
+    } else {
+      div.style.background = '#fff';
+      div.style.color = '#333';
+      div.style.borderColor = '#ddd';
+    }
+    div.onclick = () => {
+  // toggle state: neutral -> safe -> unsafe -> neutral
+  const s = div.dataset.state;
+  const isDarkNow = document.body.classList.contains('dark-mode');
+  if (s === 'neutral') {
+    div.dataset.state = 'safe';
+    div.classList.add('selected');
+    div.classList.remove('unsafe');
+    div.style.borderColor = isDarkNow ? '#81c784' : '#4caf50';
+    div.style.background = isDarkNow ? '#355c3a' : '#c8e6c9';
+    div.style.color = isDarkNow ? '#ffe082' : '#333';
+  }
+  else if (s === 'safe') {
+    div.dataset.state = 'unsafe';
+    div.classList.remove('selected');
+    div.classList.add('unsafe');
+    div.style.borderColor = isDarkNow ? '#e57373' : '#e53935';
+    div.style.background = isDarkNow ? '#7c2f2f' : '#ffcdd2';
+    div.style.color = isDarkNow ? '#ffe082' : '#333';
+  }
+  else {
+    div.dataset.state = 'neutral';
+    div.classList.remove('selected');
+    div.classList.remove('unsafe');
+    div.style.borderColor = isDarkNow ? '#ffe082' : '#ddd';
+    div.style.background = isDarkNow ? '#232526' : '#fff';
+    div.style.color = isDarkNow ? '#ffe082' : '#333';
+  }
+};
+    area.appendChild(div);
+  });
+}
+function checkSafetySorting() {
+  const cards = Array.from(document.querySelectorAll('#safetySortingArea .sort-card'));
+  let allCorrect = true;
+  const isDark = document.body.classList.contains('dark-mode');
+  cards.forEach(card => {
+    const correct = (card.dataset.safe === 'true');
+    const state = card.dataset.state; // 'safe' means user marked safe
+    const userMarkedSafe = (state === 'safe');
+    // For safe items, user must mark safe; for unsafe items user must mark unsafe
+    const userCorrect = correct ? userMarkedSafe : (state === 'unsafe');
+    card.style.boxShadow = '';
+    if (!userCorrect) {
+      allCorrect = false;
+      card.style.background = isDark ? '#7c2f2f' : '#ffcdd2';
+      card.style.color = isDark ? '#ffe082' : '#333';
+    }
+    else {
+      card.style.background = isDark ? '#355c3a' : '#c8e6c9';
+      card.style.color = isDark ? '#ffe082' : '#333';
+    }
+  });
+  if (allCorrect) {
+    alert('✅ All sorted correctly! Proceeding to Matching Game.');
+    safetyStage = 6; renderSafetyStage();
+  } else {
+    alert('❌ Some answers are incorrect. Fix them before proceeding.');
+  }
+}
+
+
+
+
+/* ===== Matching game internals (drag & drop) ===== */
+const safetyMatchingData = [
+  {helper: '👮 Police', job: 'keeps you safe in the neighborhood'},
+  {helper: '👩‍🏫 Teacher', job: 'helps you at school'},
+  {helper: '👩‍👦 Parent', job: 'takes care of you'},
+  {helper: '👩‍⚕️ Doctor', job: 'helps you when you are sick'},
+  {helper: '🚒 Firefighter', job: 'puts out fires and rescue people'},
+  {helper: '🚌 Bus driver', job: 'brings you safely to school'},
+  {helper: '🛡️ Security guard', job: 'keeps public places safe (mall, school, park)'},
+  {helper: '👷 Crossing guard', job: 'helps you cross the street safely'},
+  {helper: '👩 Friend', job: 'plays with you and kind to you'}
+];
+
+
+
+
+function initSafetyMatching() {
+  const area = document.getElementById('safetyMatchArea');
+  area.innerHTML = '';
+
+
+
+
+  // shuffle helpers and jobs separately
+  const helpers = shuffleArray(safetyMatchingData.slice());
+  const jobs = shuffleArray(safetyMatchingData.slice());
+
+
+
+
+  // left column: helpers (draggables)
+  const leftCol = document.createElement('div');
+  leftCol.style.minWidth = '220px';
+  helpers.forEach(h => {
+    const d = document.createElement('div');
+    d.className = 'match-helper';
+    d.draggable = true;
+    d.textContent = h.helper;
+    d.dataset.helper = h.helper;
+    d.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', h.helper);
+    });
+    leftCol.appendChild(d);
+  });
+
+
+
+
+  // middle spacer
+  const midCol = document.createElement('div');
+  midCol.style.minWidth = '30px';
+
+
+
+
+  // right column: jobs with drop targets
+  const rightCol = document.createElement('div');
+  rightCol.style.minWidth = '320px';
+  rightCol.style.display = 'grid';
+  rightCol.style.gridTemplateColumns = '1fr';
+  rightCol.style.gap = '10px';
+
+
+
+
+  jobs.forEach(j => {
+    const wrap = document.createElement('div');
+    wrap.className = 'match-target';
+    wrap.dataset.job = j.job;
+    wrap.style.display = 'flex';
+    wrap.style.justifyContent = 'space-between';
+    wrap.style.alignItems = 'center';
+    const label = document.createElement('div');
+    label.textContent = j.job;
+    label.style.flex = '1';
+    label.style.textAlign = 'left';
+    const drop = document.createElement('div');
+    drop.style.minWidth = '120px';
+    drop.style.textAlign = 'center';
+    drop.textContent = 'Drop here';
+    drop.addEventListener('dragover', e => e.preventDefault());
+    drop.addEventListener('drop', e => {
+      e.preventDefault();
+      const helperName = e.dataTransfer.getData('text/plain');
+      // place helperName into this drop area
+      drop.textContent = helperName;
+      drop.dataset.helper = helperName;
+    });
+    wrap.appendChild(label);
+    wrap.appendChild(drop);
+    rightCol.appendChild(wrap);
+  });
+
+
+
+
+  area.appendChild(leftCol);
+  area.appendChild(midCol);
+  area.appendChild(rightCol);
+}
+function checkSafetyMatching() {
+  const targets = Array.from(document.querySelectorAll('#safetyMatchArea .match-target'));
+  let allMatched = true;
+  for (const t of targets) {
+    const job = t.dataset.job;
+    const drop = t.querySelector('div[dataset-helper]') || t.querySelector('div');
+    // Since we can't rely on attribute selection this way, find child drop element
+    const child = t.children[1];
+    const helperName = child ? child.dataset.helper : undefined;
+    // Find correct pair
+    const pair = safetyMatchingData.find(p => p.job === job);
+    if (!helperName || helperName !== pair.helper) {
+      allMatched = false;
+      t.style.background = '#ffcdd2';
+    } else {
+      t.style.background = '#c8e6c9';
+    }
+  }
+  if (allMatched) {
+    alert('✅ All matches correct! Lesson complete.');
+    safetyStage = 7; renderSafetyStage();
+  } else {
+    alert('❌ Some matches are incorrect. Please fix them.');
+  }
+}
+/* ===============================
+   INIT
+================================ */
+updateProgress();
+</script>
+
+<script>
+  let toastTimer = null;
+  function showToast(message, type = 'success', ms = 1500) {
+    const el = document.getElementById('toast');
+    if (!el) return;
+    el.className = '';            // reset
+    el.classList.add(type);       // success | error | info
+    el.textContent = message;
+    void el.offsetWidth;          // reflow to restart CSS transition
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.classList.remove('show'); }, ms);
+  }
+</script>
+<script>
+
+
+// --- TIMER & TIME STATS ---
+let timerInterval = null;
+let timerStart = null;
+let currentLessonId = null;
+let lessonTimes = JSON.parse(localStorage.getItem('lessonTimes') || '{}');
+
+
+function startTimer(lessonId) {
+  stopTimer(); // clear any previous
+  timerStart = Date.now();
+  currentLessonId = lessonId;
+  timerInterval = setInterval(updateTimerDisplay, 1000);
+}
+
+
+function stopTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  if (timerStart && currentLessonId) {
+    const elapsed = Math.floor((Date.now() - timerStart) / 1000);
+    lessonTimes[currentLessonId] = (lessonTimes[currentLessonId] || 0) + elapsed;
+    localStorage.setItem('lessonTimes', JSON.stringify(lessonTimes));
+  }
+  timerInterval = null;
+  timerStart = null;
+  currentLessonId = null;
+  updateTimerDisplay();
+}
+
+
+function updateTimerDisplay() {
+  let seconds = 0;
+  if (timerStart) {
+    seconds = Math.floor((Date.now() - timerStart) / 1000);
+  }
+  document.getElementById('timer').textContent = `⏱ ${seconds}s`;
+}
+
+
+// Patch startLesson and goBack to handle timer
+const _startLesson = startLesson;
+startLesson = function(lessonId) {
+  _startLesson(lessonId);
+  startTimer(lessonId);
+};
+const _goBack = goBack;
+goBack = function() {
+  stopTimer();
+  _goBack();
+};
+
+
+// Patch completeLesson to stop timer and save time
+const _completeLesson = completeLesson;
+completeLesson = function(id, badgeName) {
+  stopTimer();
+  _completeLesson(id, badgeName);
+};
+
+
+// Make "View My Time Stats" button functional
+window.viewTimes = function() {
+  // Load times
+  lessonTimes = JSON.parse(localStorage.getItem('lessonTimes') || '{}');
+  let html = `<h2>⏱ Time Stats</h2><ul style="text-align:left;display:inline-block;">`;
+  let total = 0;
+  for (const id of implementedLessons) {
+    const sec = lessonTimes[id] || 0;
+    total += sec;
+    html += `<li><b>${id}</b>: ${formatTime(sec)}</li>`;
+  }
+  html += `</ul><p><b>Total Time:</b> ${formatTime(total)}</p>`;
+  showPopup(html);
+};
+
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return m > 0 ? `${m}m ${s}s` : `${s}s`;
+}
+
+
+// Show popup for time stats
+function showPopup(html) {
+  const popup = document.getElementById('popup');
+  popup.innerHTML = html + `<br><button class="lesson-btn" onclick="closePopup()">Close</button>`;
+  popup.style.display = 'block';
+  popup.classList.add('show');
+}
+window.closePopup = function() {
+  const popup = document.getElementById('popup');
+  popup.style.display = 'none';
+  popup.classList.remove('show');
+};
+
+
+// Reset time stats when progress is reset
+const _resetProgress = resetProgress;
+resetProgress = function() {
+  lessonTimes = {};
+  localStorage.setItem('lessonTimes', '{}');
+  _resetProgress();
+};
+
+
+// On page unload, save timer if running
+window.addEventListener('beforeunload', stopTimer);
+
+
+// On page load, reset timer display
+updateTimerDisplay();
+
+
+// filepath: c:\Users\JN\Downloads\website_nika\SensorySpaceNew.html\lessons.html
+// ...existing code...
+
+
+// ===============================
+// TEXT-TO-SPEECH SYSTEM
+// ===============================
+let tts = {
+  synth: null,
+  voices: [],
+  currentUtterance: null,
+  isPlaying: false,
+  settings: {
+    voice: 'default',
+    rate: 1.0,
+    volume: 1.0,
+    autoPlay: true,
+    readChoices: true
+  }
+};
+
+
+// Initialize TTS
+function initTTS() {
+  if ('speechSynthesis' in window) {
+    tts.synth = window.speechSynthesis;
+    loadVoices();
+    
+    // Load settings from localStorage
+    const savedSettings = localStorage.getItem('ttsSettings');
+    if (savedSettings) {
+      tts.settings = { ...tts.settings, ...JSON.parse(savedSettings) };
+      applyTTSSettings();
+    }
+    
+    // Set up event listeners
+    setupTTSEventListeners();
+    
+    showTTSStatus('TTS Ready', 'success');
+  } else {
+    showTTSStatus('TTS Not Supported', 'error');
+    document.querySelector('.tts-controls').style.display = 'none';
+  }
+}
+
+
+// Load available voices
+function loadVoices() {
+  tts.voices = tts.synth.getVoices();
+  const voiceSelect = document.getElementById('ttsVoiceSelect');
+  voiceSelect.innerHTML = '<option value="default">Default Voice</option>';
+  
+  tts.voices.forEach((voice, index) => {
+    const option = document.createElement('option');
+    option.value = index;
+    option.textContent = `${voice.name} (${voice.lang})`;
+    voiceSelect.appendChild(option);
+  });
+}
+
+
+// Set up TTS event listeners
+function setupTTSEventListeners() {
+  // Voice loading
+  tts.synth.onvoiceschanged = loadVoices;
+  
+  // Settings controls
+  document.getElementById('ttsVoiceSelect').onchange = (e) => {
+    tts.settings.voice = e.target.value;
+    saveTTSSettings();
+  };
+  
+  document.getElementById('ttsSpeedRange').oninput = (e) => {
+    tts.settings.rate = parseFloat(e.target.value);
+    document.getElementById('ttsSpeedValue').textContent = e.target.value;
+    saveTTSSettings();
+  };
+  
+  document.getElementById('ttsVolumeRange').oninput = (e) => {
+    tts.settings.volume = parseFloat(e.target.value);
+    document.getElementById('ttsVolumeValue').textContent = e.target.value;
+    saveTTSSettings();
+  };
+  
+  document.getElementById('ttsAutoPlay').onchange = (e) => {
+    tts.settings.autoPlay = e.target.checked;
+    saveTTSSettings();
+  };
+  
+  document.getElementById('ttsReadChoices').onchange = (e) => {
+    tts.settings.readChoices = e.target.checked;
+    saveTTSSettings();
+  };
+  
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' && !e.target.matches('input, textarea, select')) {
+      e.preventDefault();
+      toggleTTS();
+    } else if (e.code === 'Escape') {
+      stopTTS();
+    }
+  });
+}
+
+
+// Apply TTS settings to UI
+function applyTTSSettings() {
+  document.getElementById('ttsVoiceSelect').value = tts.settings.voice;
+  document.getElementById('ttsSpeedRange').value = tts.settings.rate;
+  document.getElementById('ttsVolumeRange').value = tts.settings.volume;
+  document.getElementById('ttsSpeedValue').textContent = tts.settings.rate;
+  document.getElementById('ttsVolumeValue').textContent = tts.settings.volume;
+  document.getElementById('ttsAutoPlay').checked = tts.settings.autoPlay;
+  document.getElementById('ttsReadChoices').checked = tts.settings.readChoices;
+}
+
+
+// Save TTS settings
+function saveTTSSettings() {
+  localStorage.setItem('ttsSettings', JSON.stringify(tts.settings));
+}
+
+
+// Speak text
+function speakText(text, callback) {
+  if (!tts.synth || !text) return;
+  
+  // Stop any current speech
+  tts.synth.cancel();
+  
+  const utterance = new SpeechSynthesisUtterance(text);
+  
+  // Apply settings
+  if (tts.settings.voice !== 'default' && tts.voices[tts.settings.voice]) {
+    utterance.voice = tts.voices[tts.settings.voice];
+  }
+  utterance.rate = tts.settings.rate;
+  utterance.volume = tts.settings.volume;
+  
+  // Event handlers
+  utterance.onstart = () => {
+    tts.isPlaying = true;
+    updateTTSButtons();
+    showTTSStatus('Speaking...', 'speaking');
+  };
+  
+  utterance.onend = () => {
+    tts.isPlaying = false;
+    updateTTSButtons();
+    hideTTSStatus();
+    if (callback) callback();
+  };
+  
+  utterance.onerror = () => {
+    tts.isPlaying = false;
+    updateTTSButtons();
+    showTTSStatus('TTS Error', 'error');
+  };
+  
+  tts.currentUtterance = utterance;
+  tts.synth.speak(utterance);
+}
+
+
+// Toggle TTS (play/pause)
+function toggleTTS() {
+  if (tts.isPlaying) {
+    tts.synth.pause();
+    tts.isPlaying = false;
+    showTTSStatus('Paused', 'paused');
+  } else if (tts.synth.paused) {
+    tts.synth.resume();
+    tts.isPlaying = true;
+    showTTSStatus('Speaking...', 'speaking');
+  } else {
+    // Read current lesson content
+    readCurrentContent();
+  }
+  updateTTSButtons();
+}
+
+
+// Stop TTS
+function stopTTS() {
+  tts.synth.cancel();
+  tts.isPlaying = false;
+  updateTTSButtons();
+  hideTTSStatus();
+}
+
+
+// Read current lesson content
+function readCurrentContent() {
+  const lessonContent = document.getElementById('lessonContent');
+  if (lessonContent && lessonContent.innerHTML.trim()) {
+    // Extract text content, removing HTML tags
+    const textContent = lessonContent.innerText || lessonContent.textContent;
+    if (textContent.trim()) {
+      speakText(textContent);
+    }
+  } else {
+    // Read main page content
+    const mainContent = document.querySelector('.card');
+    if (mainContent) {
+      const textContent = mainContent.innerText || mainContent.textContent;
+      speakText(textContent);
+    }
+  }
+}
+
+
+// Update TTS button states
+function updateTTSButtons() {
+  const playBtn = document.getElementById('ttsPlayBtn');
+  const stopBtn = document.getElementById('ttsStopBtn');
+  
+  if (tts.isPlaying) {
+    playBtn.textContent = '⏸️';
+    playBtn.classList.add('active');
+    stopBtn.disabled = false;
+  } else {
+    playBtn.textContent = '🔊';
+    playBtn.classList.remove('active');
+    stopBtn.disabled = !tts.synth.speaking;
+  }
+}
+
+
+// Toggle TTS settings panel
+function toggleTTSSettings() {
+  const settings = document.getElementById('ttsSettings');
+  settings.classList.toggle('show');
+}
+
+
+// Show TTS status
+function showTTSStatus(message, type) {
+  const status = document.getElementById('ttsStatus');
+  status.textContent = message;
+  status.className = `tts-status show ${type}`;
+  
+  if (type !== 'speaking') {
+    setTimeout(hideTTSStatus, 3000);
+  }
+}
+
+
+// Hide TTS status
+function hideTTSStatus() {
+  document.getElementById('ttsStatus').classList.remove('show');
+}
+
+
+// Auto-read lesson content when it changes
+function autoReadLessonContent() {
+  if (tts.settings.autoPlay) {
+    setTimeout(() => {
+      readCurrentContent();
+    }, 500); // Small delay to ensure content is rendered
+  }
+}
+
+// Read answer choices
+function readAnswerChoices(choices) {
+  if (tts.settings.readChoices && choices && choices.length > 0) {
+    const choicesText = choices.map((choice, index) => 
+      `Choice ${index + 1}: ${choice.text}`
+    ).join('. ');
+    speakText(choicesText);
+  }
+}
+
+
+// Read feedback
+function readFeedback(feedback) {
+  if (feedback) {
+    speakText(feedback);
+  }
+}
+
+
+// Initialize TTS on page load
+document.addEventListener('DOMContentLoaded', initTTS);
+</script>
+
+
+</body>
+</html>
+	22
+

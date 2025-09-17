@@ -416,6 +416,8 @@ a {
   z-index: 1001;
 }
 
+
+
 /* Shrink and push the lessons box down a bit */
 .card {
   max-width: 800px;
@@ -499,6 +501,282 @@ body.dark-mode #badges .badge span {
 body.dark-mode #toast { background: #355c3a; color: #ffe082; }
 body.dark-mode #toast.error { background: #7c2f2f; color: #ffe082; }
 body.dark-mode #toast.info  { background: #44402a; color: #ffe082; }
+
+
+/* Card style for safety sorting game */
+.sort-card {
+  background: #fff;
+  border: 2px solid #ffd700;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 22px 18px;
+  margin: 12px;
+  font-size: 1.15rem;
+  font-weight: bold;
+  min-width: 220px;
+  max-width: 320px;
+  display: inline-block;
+  cursor: pointer;
+  transition: 
+    background 0.25s, 
+    border-color 0.25s, 
+    box-shadow 0.25s, 
+    transform 0.15s;
+  text-align: center;
+  user-select: none;
+  position: relative;
+}
+.sort-card.selected {
+  border-color: #4caf50;
+  background: #e8f5e9;
+  box-shadow: 0 4px 18px rgba(76,175,80,0.13);
+  transform: scale(1.04);
+}
+.sort-card.unsafe {
+  border-color: #e53935;
+  background: #ffcdd2;
+  box-shadow: 0 4px 18px rgba(229,57,53,0.13);
+  transform: scale(1.04);
+}
+body.dark-mode .sort-card {
+  background: #232526 !important;
+  color: #ffe082 !important;
+  border-color: #ffe082 !important;
+  box-shadow: 0 0 10px #ffaa00;
+}
+body.dark-mode .sort-card.selected {
+  background: #355c3a !important;
+  border-color: #81c784 !important;
+}
+body.dark-mode .sort-card.unsafe {
+  background: #7c2f2f !important;
+  border-color: #e57373 !important;
+}
+
+/* Matching Game Helper (draggable left) */
+.match-helper {
+  background: #fffbe7;
+  border: 2px solid #ffd700;
+  border-radius: 18px;
+  box-shadow: 0 3px 12px rgba(255,215,0,0.12);
+  padding: 18px 0;
+  margin: 10px 0;
+  font-size: 1.35rem;
+  font-weight: bold;
+  text-align: center;
+  cursor: grab;
+  transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+  user-select: none;
+  width: 150px;
+  min-width: 120px;
+  max-width: 180px;
+  min-height: 48px;
+  max-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.match-helper:active {
+  background: #ffe082;
+  border-color: #ffb703;
+  box-shadow: 0 4px 18px rgba(255,183,3,0.13);
+}
+
+/* Matching Game Target (right) */
+.match-target {
+  background: #f7f7fa;
+  border: 2px dashed #bdbdbd;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  padding: 18px 16px;
+  margin: 10px 0;
+  min-height: 60px;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.match-target.correct {
+  background: #e8f5e9;
+  border-color: #4caf50;
+}
+.match-target.incorrect {
+  background: #ffcdd2;
+  border-color: #e53935;
+}
+
+/* Drop area inside target */
+.match-target > div:last-child {
+  min-width: 110px;
+  min-height: 36px;
+  background: #fffde4;
+  border: 1.5px solid #ffd700;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+/* Highlight drop area on dragover */
+.match-target > div:last-child.dragover {
+  background: #ffe082;
+  border-color: #ffb703;
+}
+
+/* Responsive columns */
+#safetyMatchArea {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+#safetyMatchArea > div {
+  flex: 1 1 220px;
+}
+
+/* Dark mode adjustments */
+body.dark-mode .match-helper {
+  background: #232526 !important;
+  color: #ffe082 !important;
+  border-color: #ffe082 !important;
+  box-shadow: 0 0 10px #ffaa00;
+}
+body.dark-mode .match-helper:active {
+  background: #355c3a !important;
+  border-color: #81c784 !important;
+}
+body.dark-mode .match-target {
+  background: #232526 !important;
+  color: #ffe082 !important;
+  border-color: #444 !important;
+}
+body.dark-mode .match-target.correct {
+  background: #355c3a !important;
+  border-color: #81c784 !important;
+}
+body.dark-mode .match-target.incorrect {
+  background: #7c2f2f !important;
+  border-color: #e57373 !important;
+}
+body.dark-mode .match-target > div:last-child {
+  background: #333 !important;
+  color: #ffe082 !important;
+  border-color: #ffe082 !important;
+}
+body.dark-mode .match-target > div:last-child.dragover {
+  background: #444 !important;
+  border-color: #ffcc00 !important;
+}
+
+/* Deep Breathing Bubble Animation */
+.breathing-container {
+  position: relative;
+  width: 260px;
+  height: 340px;
+  margin: 0 auto 18px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.breathing-bubble {
+  position: absolute;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle at 60% 40%, #b3e5fc 70%, #0288d1 100%);
+  border-radius: 50%;
+  box-shadow: 0 8px 32px rgba(2,136,209,0.18);
+  border: 3px solid #fff;
+  z-index: 1;
+  transition:
+    width 4s cubic-bezier(.4,2,.4,1),
+    height 4s cubic-bezier(.4,2,.4,1),
+    background 2s,
+    box-shadow 2s;
+}
+.breathing-bubble.inhale {
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle at 60% 40%, #b3e5fc 80%, #0288d1 100%);
+  box-shadow: 0 16px 48px rgba(2,136,209,0.22);
+}
+.breathing-bubble.hold {
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle at 60% 40%, #b3e5fc 80%, #0288d1 100%);
+  box-shadow: 0 16px 48px rgba(2,136,209,0.22);
+}
+.breathing-bubble.exhale {
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle at 60% 40%, #b3e5fc 60%, #0288d1 100%);
+  box-shadow: 0 4px 18px rgba(2,136,209,0.10);
+}
+.breathing-timer {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #0288d1;
+  background: rgba(255,255,255,0.85);
+  padding: 6px 18px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(2,136,209,0.10);
+  z-index: 2;
+  letter-spacing: 1px;
+}
+@media (max-width: 500px) {
+  .breathing-container { width: 98vw; }
+  .breathing-bubble.inhale, .breathing-bubble.hold { width: 120px; height: 120px; }
+  .breathing-bubble.exhale { width: 60px; height: 60px; }
+}
+
+.sort-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+.sort-slot {
+  min-width: 80px;
+  max-width: 90px;
+  min-height: 80px;
+  max-height: 90px;
+  background: #fffde4;
+  border: 2px dashed #ffd700;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, background 0.2s;
+  box-shadow: 0 2px 8px rgba(255,215,0,0.08);
+  margin: 0;
+  padding: 0;
+}
+.sort-slot img {
+  max-width: 48px;
+  max-height: 32px;
+  object-fit: contain;
+}
+@media (max-width: 600px) {
+  .sort-row { flex-wrap: wrap; }
+  .sort-slot { min-width: 44px; max-width: 54px; min-height: 44px; max-height: 54px; }
+}
+
   </style>
 </head>
 <body>
@@ -910,7 +1188,7 @@ function loadEmotionsLesson() {
     // BUBBLE STORY (Personal Space)
     // ===============================
     let bubbleScenes = [
-      { img: "AbbyNoah.webp", text: "Abby stood too close to Noah in line. What should Abby do?",
+      { img: "AbbyNoah.jpg", text: "Abby stood too close to Noah in line. What should Abby do?",
         choices: [
           { text: "Stay very close and push", correct: false, feedback: "Oops! Noah looks squished. Try again." },
           { text: "Step back to give Noah space", correct: true, feedback: "Great! Now Noah feels safe in his bubble." }
@@ -920,7 +1198,7 @@ function loadEmotionsLesson() {
           { text: "Hug her without asking", correct: false, feedback: "That was too close! Try again." },
           { text: "Ask Ava, 'Can I give you a hug?'", correct: true, feedback: "Not now, but we can high-five!" }
         ]},
-     { img: "Miaben.webp", text: "Mia wants to borrow Ben’s toy. What should she do before taking it?",
+     { img: "Miaben.jpg", text: "Mia wants to borrow Ben’s toy. What should she do before taking it?",
         choices: [
           { text: "Grab the toy quickly", correct: false, feedback: "That was too close! Try again." },
           { text: "Ask Ben politely, 'Can I borrow your toy?'", correct: true, feedback: "Good Job! Ben let Mia borrow his toy." }
@@ -930,12 +1208,12 @@ function loadEmotionsLesson() {
           { text: "Knock on the door", correct: true, feedback: "Nice! Always remember to be respectful." },
           { text: "Run inside quickly", correct: false, feedback: "Not quite, try again!" }
         ]},
-      { img: "ianline.webp", text: "Ian is standing in line and wants to be closer to the front. What should he do?",
+      { img: "ianline.jpg", text: "Ian is standing in line and wants to be closer to the front. What should he do?",
         choices: [
           { text: "Wait his turn in line", correct: true, feedback: "Nice! Always remember to be respectful." },
           { text: "Push past others", correct: false, feedback: "Not quite, try again!" }
         ]},
-     { img: "romeopencil.jpg", text: "Romeo wants to borrow Ava’s pencil. What should he do?",
+     { img: "romeopencil.webp", text: "Romeo wants to borrow Ava’s pencil. What should he do?",
         choices: [
           { text: "Take the pencil without asking", correct: false, feedback: "Not quite! That’s not polite." },
           { text: "Ask Ava politely to borrow it", correct: true, feedback: "Correct! Asking first is respectful." }
@@ -990,7 +1268,7 @@ function loadEmotionsLesson() {
     // ===============================
     let hygieneScenes = [
       {
-        img: "waking up.avif",
+        img: "waking up.jpg",
         text: "Good morning! What do we do first when we wake up?",
         choices: [
           { text: "🦷 Brush Teeth", correct: true, feedback: "Yes! Brushing our teeth first keeps them shiny and healthy." },
@@ -999,7 +1277,7 @@ function loadEmotionsLesson() {
         ]
       },
       {
-        img: "brushteeth.jpg",
+        img: "brushingteeth.jpg",
         text: "Let's brush our teeth! Pick the right steps in order.",
         choices: [
           { text: "Pick up toothbrush", correct: true, feedback: "Great! First we pick up our toothbrush." },
@@ -1030,7 +1308,7 @@ function loadEmotionsLesson() {
         multiStep: true
       },
       {
-        img: "changing clothes.jpg",
+        img: "changing clothes.webp",
         text: "Changing clothes! Which one is ready for school?",
         choices: [
           { text: "Dirty smelly shirt", correct: false, feedback: "Oops! We need clean clothes." },
@@ -1100,111 +1378,108 @@ function loadEmotionsLesson() {
     // ===============================
     // DEEP BREATHING (4-4-4 box)
     // ===============================
-    function loadDeepBreathingLesson() {
-      const content = document.getElementById("lessonContent");
-      content.innerHTML = `
-        <h2>🌬️ Deep Breathing</h2>
-        <img class="scene" src="inhale exhale.jpg" alt="Deep breathing visual">
-        <p>Follow the circle and breathe: <strong>Inhale 4</strong>, <strong>Hold 4</strong>, <strong>Exhale 4</strong>. Complete 3 cycles to earn your badge!</p>
-        <div class="breathing-container">
-          <div id="breathingCircle" class="breathing-circle"></div>
-          <div class="phase" id="breathingPhase">Tap Start</div>
-          <div class="counter" id="breathingCounter">Cycles: 0 / 3</div>
-          <div class="control-row">
-            <button id="startBreathing" class="small-btn">▶️ Start</button>
-            <button id="pauseBreathing" class="small-btn">⏸️ Pause</button>
-            <button id="resetBreathing" class="small-btn">↩️ Reset</button>
-          </div>
-        </div>
-        <div id="breathingFinish" class="hidden">
-          <p>Great slow breathing! Your body feels calm.</p>
-          <button class="lesson-btn" onclick="completeLesson('deepBreathing', 'Breathing Buddy Badge')">Finish Lesson ✅</button>
-        </div>
-      `;
+function loadDeepBreathingLesson() {
+  const content = document.getElementById("lessonContent");
+  content.innerHTML = `
+    <h2>🌬️ Deep Breathing</h2>
+    <img class="scene" src="inhale exhale.jpg" alt="Deep breathing visual">
+    <p>Follow the bubble: <strong>Inhale 4</strong>, <strong>Hold 4</strong>, <strong>Exhale 4</strong>. Complete 3 cycles to earn your badge!</p>
+    <div class="breathing-container">
+      <div id="breathingBubble" class="breathing-bubble exhale"></div>
+      <div class="breathing-timer" id="breathingTimer">00:00</div>
+      <div class="phase" id="breathingPhase">Tap Start</div>
+      <div class="counter" id="breathingCounter">Cycles: 0 / 3</div>
+      <div class="control-row" style="margin-top: 220px;">
+        <button id="startBreathing" class="small-btn">▶️ Start</button>
+        <button id="pauseBreathing" class="small-btn">⏸️ Pause</button>
+        <button id="resetBreathing" class="small-btn">↩️ Reset</button>
+      </div>
+    </div>
+    <div id="breathingFinish" class="hidden">
+      <p>Great slow breathing! Your body feels calm.</p>
+      <button class="lesson-btn" onclick="completeLesson('deepBreathing', 'Breathing Buddy Badge')">Finish Lesson ✅</button>
+    </div>
+  `;
 
+  let phaseEl = document.getElementById('breathingPhase');
+  let bubbleEl = document.getElementById('breathingBubble');
+  let counterEl = document.getElementById('breathingCounter');
+  let finishEl = document.getElementById('breathingFinish');
+  let timerEl = document.getElementById('breathingTimer');
 
+  const phases = ["Inhale", "Hold", "Exhale"];
+  const durationMs = 1000 * 4; // 4 seconds each
+  let currentPhaseIndex = 0;
+  let cyclesDone = 0;
+  let playing = false;
+  let timer = null;
+  let startTime = null;
+  let timerInterval = null;
 
+  function renderPhase() {
+    const phase = phases[currentPhaseIndex];
+    phaseEl.textContent = phase;
+    bubbleEl.classList.remove('inhale', 'hold', 'exhale');
+    if (phase === "Inhale")      bubbleEl.classList.add('inhale');
+    else if (phase === "Hold")   bubbleEl.classList.add('hold');
+    else if (phase === "Exhale") bubbleEl.classList.add('exhale');
+  }
 
-      let phaseEl = document.getElementById('breathingPhase');
-      let circleEl = document.getElementById('breathingCircle');
-      let counterEl = document.getElementById('breathingCounter');
-      let finishEl = document.getElementById('breathingFinish');
-
-
-
-
-      const phases = ["Inhale", "Hold", "Exhale"];
-      const durationMs = 1000 * 4; // 4 seconds each
-      let currentPhaseIndex = 0;
-      let cyclesDone = 0;
-      let playing = false;
-      let timer = null;
-
-
-
-
-      function renderPhase() {
-        const phase = phases[currentPhaseIndex];
-        phaseEl.textContent = phase;
-        if (phase === "Inhale")      circleEl.style.transform = "scale(1.2)";
-        else if (phase === "Hold")   circleEl.style.transform = "scale(1.2)";
-        else if (phase === "Exhale") circleEl.style.transform = "scale(0.9)";
-      }
-
-
-
-
-      function nextPhase() {
-        currentPhaseIndex = (currentPhaseIndex + 1) % phases.length;
-        if (currentPhaseIndex === 0) {
-          cyclesDone++;
-          counterEl.textContent = `Cycles: ${cyclesDone} / 3`;
-          if (cyclesDone >= 3) {
-            stop();
-            finishEl.classList.remove("hidden");
-          }
-        }
-        renderPhase();
-      }
-
-
-
-
-      function start() {
-        if (playing) return;
-        playing = true;
-        renderPhase();
-        timer = setInterval(nextPhase, durationMs);
-      }
-
-
-
-
-      function stop() {
-        playing = false;
-        if (timer) { clearInterval(timer); timer = null; }
-      }
-
-
-
-
-      function reset() {
+  function nextPhase() {
+    currentPhaseIndex = (currentPhaseIndex + 1) % phases.length;
+    if (currentPhaseIndex === 0) {
+      cyclesDone++;
+      counterEl.textContent = `Cycles: ${cyclesDone} / 3`;
+      if (cyclesDone >= 3) {
         stop();
-        currentPhaseIndex = 0;
-        cyclesDone = 0;
-        counterEl.textContent = `Cycles: ${cyclesDone} / 3`;
-        phaseEl.textContent = "Tap Start";
-        circleEl.style.transform = "scale(1)";
-        finishEl.classList.add("hidden");
+        finishEl.classList.remove("hidden");
       }
-
-
-
-
-      document.getElementById('startBreathing').onclick = start;
-      document.getElementById('pauseBreathing').onclick = stop;
-      document.getElementById('resetBreathing').onclick = reset;
     }
+    renderPhase();
+  }
+
+  function start() {
+    if (playing) return;
+    playing = true;
+    renderPhase();
+    startTime = Date.now() - (elapsedSeconds * 1000);
+    timer = setInterval(nextPhase, durationMs);
+    timerInterval = setInterval(updateTimer, 1000);
+  }
+
+  function stop() {
+    playing = false;
+    if (timer) { clearInterval(timer); timer = null; }
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  }
+
+  function reset() {
+    stop();
+    currentPhaseIndex = 0;
+    cyclesDone = 0;
+    elapsedSeconds = 0;
+    counterEl.textContent = `Cycles: ${cyclesDone} / 3`;
+    phaseEl.textContent = "Tap Start";
+    bubbleEl.classList.remove('inhale', 'hold', 'exhale');
+    bubbleEl.classList.add('exhale');
+    finishEl.classList.add("hidden");
+    timerEl.textContent = "00:00";
+  }
+
+  let elapsedSeconds = 0;
+  function updateTimer() {
+    if (!startTime) return;
+    elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+    const min = String(Math.floor(elapsedSeconds / 60)).padStart(2, '0');
+    const sec = String(elapsedSeconds % 60).padStart(2, '0');
+    timerEl.textContent = `${min}:${sec}`;
+  }
+
+  document.getElementById('startBreathing').onclick = start;
+  document.getElementById('pauseBreathing').onclick = stop;
+  document.getElementById('resetBreathing').onclick = reset;
+  reset();
+}
  
 /* ===============================
    CALM DOWN STRATEGIES
@@ -1212,7 +1487,7 @@ function loadEmotionsLesson() {
 ================================ */
 let calmDownScenes = [
   {
-    img: "imagescalm_scenario1.png",
+    img: "imagescalm_scenario1.jpg",
     text: "Aiden lost his toy and feels angry. What should he do?",
     choices: [
       { text: "Scream and throw things", correct: false, feedback: "Nice try! Try Again." },
@@ -1220,7 +1495,7 @@ let calmDownScenes = [
     ]
   },
   {
-    img: "nervous.jpg",
+    img: "nervous.webp",
     text: "Maya feels nervous before a test. Choose the best calming strategy.",
     choices: [
       { text: "Take 3 deep breaths", correct: true, feedback: "Yes! Breathing helps your brain focus." },
@@ -1228,7 +1503,7 @@ let calmDownScenes = [
     ]
   },
   {
-    img: "LoudLeo.jpg",
+    img: "LoudLeo.jpeg",
     text: "Leo gets overwhelmed by loud noise in the room. What can he do?",
     choices: [
       { text: "Ask for a quiet break", correct: true, feedback: "Perfect! A quiet corner helps regulate." },
@@ -1236,7 +1511,7 @@ let calmDownScenes = [
     ]
   },
   {
-    img: "imagescalm_tools.png",
+    img: "imagescalm_tools.jpg",
     text: "Pick TWO tools that help you calm down.",
     choices: [
       { text: "Squeeze stress ball", correct: true, feedback: "Good tool!" },
@@ -1972,25 +2247,25 @@ function loadTakingTurnsLesson() {
       ]
     },
     {
-      img: "playing.avif",
-      text: "Jerry and Ace are playing a game. Belle is waiting for Ace to be done. What can Belle do while waiting?",
+      img: "playing.webp",
+      text: "Ace is playing a video game. Belle is waiting for Ace to be done. What can Belle do while waiting?",
       choices: [
-        { text: "Watch and cheer for Jerry and Ace", correct: true, feedback: "Yes! Watching and cheering is a good way to wait." },
+        { text: "Watch and cheer for Ace", correct: true, feedback: "Yes! Watching and cheering is a good way to wait." },
         { text: "Complain loudly", correct: false, feedback: "Try again! Complaining isn't polite." },
         { text: "Take the game away", correct: false, feedback: "Try again! That's not taking turns." }
       ]
     },
         {
-      img: "girlplay.webp",
+      img: "Girlplay.jpg",
       text: "Now it's Belle's turn! What should Ace do?",
       choices: [
-        { text: "Let Belle and Jerry play and wait for his next turn", correct: true, feedback: "Correct! Now Belle waits for her turn." },
+        { text: "Let Belle play and wait for his next turn", correct: true, feedback: "Correct! Now Belle waits for her turn." },
         { text: "Do not let Belle have the controller", correct: false, feedback: "Try again! That is not respectful." },
         { text: "Hide the controller from Belle", correct: false, feedback: "Try again! That is not respectful." }
       ]
     },
     {
-      img: "boardgame.webp",
+      img: "boardgame.jpg",
       text: "The family is playing a board game. It’s Jason’s turn, but Kayla wants to roll the dice. What should Kayla do?",
       choices: [
         { text: "Grab the dice from Jason", correct: false, feedback: "Not quite! That’s not fair." },
@@ -1999,7 +2274,7 @@ function loadTakingTurnsLesson() {
       ]
     },
     {
-     img: "tvremote.webp",
+     img: "tvremote.jpg",
       text: "George and his sister both want to watch TV. What should they do?",
      choices: [
         { text: "Grab the remote and change the channel", correct: false, feedback: "Not quite! That’s not fair." },
@@ -2008,7 +2283,7 @@ function loadTakingTurnsLesson() {
       ]
     },
     {
-     img: "swing.jpg",
+     img: "swing.webp",
       text: "Lily is on the swing and Noah wants a turn. What should Noah do?",
      choices: [
         { text: "Ask, 'Can I have a turn when you're done?'", correct: true, feedback: "Great! That’s how to take turns politely." },
@@ -2185,7 +2460,7 @@ function renderSafetyStage() {
     content.innerHTML = `
       <h2>🟢 Safety in Public — Introduction</h2>
       <div class="safety-intro-images">
-        <div class="safety-card"><img src="park.webp" alt="park"><div class="small">Park</div></div>
+        <div class="safety-card"><img src="park.jpg" alt="park"><div class="small">Park</div></div>
         <div class="safety-card"><img src="street.jpg" alt="street"><div class="small">Street</div></div>
         <div class="safety-card"><img src="mall.jpg" alt="mall"><div class="small">Mall</div></div>
       </div>
@@ -2206,28 +2481,19 @@ function renderSafetyStage() {
       <h2>🟡 Stranger Dangers</h2>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
         <div class="safety-card"><img src="family.jpg" alt="family"><div class="small">Family — safe people</div></div>
-        <div class="safety-card"><img src="stranger.webp" alt="stranger"><div class="small">Person we don't know — stranger</div></div>
+        <div class="safety-card"><img src="stranger.jpg" alt="stranger"><div class="small">Person we don't know — stranger</div></div>
       </div>
       <div class="s-row">
           <div class="s-col s-card">
             <h3>Who is a stranger?</h3>
-            <p>A stranger is anyone you don’t know well. Not all strangers are bad (police, teachers, store workers can be helpers), but some may try to trick or harm. Rule: if unsure, be careful and follow the safety rules below.</p>
-            <ul>
-              <li>Offers candy or gifts → Say <strong>No, thank you</strong> and move away.</li>
-              <li>Asks you to go somewhere → <strong>Never</strong> go alone.</li>
-              <li>Asks for personal info → Do not share.</li>
-            </ul>
-          </div>       
+            <p>A stranger is someone we don’t know well. However, not all strangers are bad such as police officers 👮, security guards🛡️, and firefighters👨‍🚒.</p>
+            <p>Remember: If you feel scared or unsure, trust your feelings and find a safe adult.</p>
 
-
-
-
-      <p class="small">A stranger is someone we don’t know well. However, not all strangers are bad, but we must be careful.</p>
+          </div>
       <ul style="text-align:left;display:inline-block;">
-        <li>🚫 Don’t go with them</li>
-        <li>🚫 Don’t take gifts or food</li>
-        <li>✅ Say “No” and walk away</li>
-        <li>✅ Find a safe adult (police officer 👮, security guard, teacher 👩‍🏫, parent 👩‍👦)</li>
+        <li>🚫 Offers candy or gifts → Say <strong>No, thank you</strong> and move away.</li>
+        <li>🚫 Asks you to go somewhere → <strong>Never</strong> go alone.</li>
+        <li>🚫 Asks for personal info → Do not share.</li>
       </ul>
       <div class="money-controls"><button class="lesson-btn" id="toStreetBtn">Next: Street Safety</button></div>
     `;
@@ -2272,13 +2538,14 @@ function renderSafetyStage() {
     // Getting Lost
     content.innerHTML = `
       <h2>🟡 If You Get Lost</h2>
+      <p>Follow these steps:</p>
       <ol style="text-align:left;display:inline-block;">
         <li>Stay where you are 🚫🏃</li>
         <li>Look for a safe adult 👮👩‍🏫</li>
         <li>Tell them your name: "My name is ___"</li>
         <li>Tell them your parent's name or phone number 📱</li>
       </ol>
-      <p class="small">Practice role-play: "My name is [child]. I am lost. Please help me find my mom/dad."</p>
+
       <div class="money-controls"><button class="lesson-btn" id="toEmergencyBtn">Next: Emergency Situations</button></div>
     `;
     document.getElementById('toEmergencyBtn').onclick = () => { safetyStage = 4; renderSafetyStage(); };
@@ -2291,7 +2558,7 @@ function renderSafetyStage() {
   if (safetyStage === 4) {
     content.innerHTML = `
       <h2>🟡 Emergency Situations</h2>
-      <p>Teach: Call 911 only for real emergencies:</p>
+      <p>Remember!</p>
       <ul style="text-align:left;display:inline-block;">
         <li>🔥 Fire = Call 911</li>
         <li>🚨 Someone hurt = Call 911</li>
@@ -2978,6 +3245,7 @@ function autoReadLessonContent() {
   }
 }
 
+
 // Read answer choices
 function readAnswerChoices(choices) {
   if (tts.settings.readChoices && choices && choices.length > 0) {
@@ -3005,4 +3273,11 @@ document.addEventListener('DOMContentLoaded', initTTS);
 </body>
 </html>
 	22
+
+
+
+
+
+
+
 

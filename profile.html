@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Profile - LMS</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('background1.jpg') no-repeat center center fixed;
+      background-size: cover;
+      padding: 20px;
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    a {
+      display: inline-block;
+      margin-bottom: 20px;
+      text-decoration: none;
+      color: #080447;
+      font-weight: bold;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.95);
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 500px;
+      margin: 20px auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-size: 14px;
+    }
+
+    input[type="text"], input[type="number"], input[type="date"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .color-picker {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .color-box {
+      width: 40px;
+      height: 20px;
+      border: 1px solid #444;
+      display: inline-block;
+    }
+
+    .avatars {
+      margin: 10px 0;
+    }
+
+    .btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #FFB6C1;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      cursor: pointer;
+      width: 100%;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493;
+    }
+
+    .profile-output {
+      margin-top: 20px;
+      padding: 15px;
+      background: #d1e8ff;
+      border-radius: 10px;
+      white-space: pre-line;
+      display: none;
+    }
+
+    /* === Dark Mode Styles === */
+    body.dark {
+      background: #1e1e1e !important;
+      color: #f1f1f1;
+      background-image: none;
+    }
+
+    body.dark a {
+      color: #80d8ff;
+      text-shadow: 0 0 6px #80d8ff;
+    }
+
+    body.dark .card {
+      background: rgba(40, 40, 40, 0.95);
+      color: #f1f1f1;
+      box-shadow: 0 0 12px rgba(255, 204, 0, 0.3);
+    }
+
+    body.dark h1 {
+      color: #ffcc00;
+      text-shadow: 0 0 8px #ffaa00;
+    }
+
+    body.dark input,
+    body.dark select {
+      background: #333;
+      color: #fff;
+      border-color: #555;
+    }
+
+    body.dark .profile-output {
+      background: #333;
+      color: #ffcc00;
+      text-shadow: 0 0 6px #ffaa00;
+      box-shadow: 0 0 12px rgba(255, 204, 0, 0.3);
+    }
+
+    body.dark .btn {
+      background: #ffcc00;
+      color: #1e1e1e;
+      box-shadow: 0 0 8px #ffcc00, 0 0 16px #ffaa00;
+    }
+
+    body.dark .btn:hover {
+      background: #ffaa00;
+      color: #fff;
+      box-shadow: 0 0 12px #ffcc00, 0 0 24px #ffaa00;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html">⬅ Back to Dashboard</a>
+  <div class="card">
+    <h1>👤 Student Profile Maker</h1>
+
+    <label>🧒 Name:</label>
+    <input type="text" id="name">
+
+    <label>🎂 Age:</label>
+    <input type="number" id="age">
+
+    <label>📅 Birthday:</label>
+    <input type="date" id="birthday">
+
+    <label>🔍 Interest:</label>
+    <input type="text" id="interest">
+
+    <label>🎨 Hobbies:</label>
+    <input type="text" id="hobbies">
+
+    <label>🌈 Favorite Color:</label>
+    <div class="color-picker">
+      <input type="color" id="color">
+      <div id="color-box" class="color-box"></div>
+    </div>
+
+    <label>🖼️ Choose an Avatar:</label>
+    <div class="avatars">
+      <label><input type="radio" name="avatar" value="🐱 Cat"> 🐱 Cat</label><br>
+      <label><input type="radio" name="avatar" value="🐶 Dog"> 🐶 Dog</label><br>
+      <label><input type="radio" name="avatar" value="🦄 Unicorn"> 🦄 Unicorn</label><br>
+      <label><input type="radio" name="avatar" value="🐵 Monkey"> 🐵 Monkey</label>
+    </div>
+
+    <button class="btn" onclick="showProfile()">✨ Show My Profile ✨</button>
+
+    <div id="profile-output" class="profile-output"></div>
+  </div>
+
+  <script>
+    function applyTheme() {
+      const settings = JSON.parse(localStorage.getItem("sensoryspaceSettings") || "{}");
+      const theme = (settings.theme === "dark" || settings.appearance === "dark") ? "dark" : "light";
+      document.body.classList.toggle("dark", theme === "dark");
+    }
+
+    const colorInput = document.getElementById("color");
+    const colorBox = document.getElementById("color-box");
+
+    colorInput.addEventListener("input", () => {
+      colorBox.style.background = colorInput.value;
+    });
+
+    function showProfile() {
+      const name = document.getElementById("name").value;
+      const age = document.getElementById("age").value;
+      const birthday = document.getElementById("birthday").value;
+      const interest = document.getElementById("interest").value;
+      const hobbies = document.getElementById("hobbies").value;
+      const color = document.getElementById("color").value;
+      const avatar = document.querySelector('input[name="avatar"]:checked');
+
+      if (!name || !age || !birthday || !interest || !hobbies || !color || !avatar) {
+        alert("Oops! Please fill in all the fields 😊");
+        return;
+      }
+
+      const profileData = {
+        name,
+        age,
+        birthday,
+        interest,
+        hobbies,
+        color,
+        avatar: avatar.value
+      };
+
+      localStorage.setItem("studentProfile", JSON.stringify(profileData));
+      displayProfile(profileData);
+    }
+
+    function displayProfile(data) {
+      const profileText =
+        `🧒 Name     : ${data.name}\n` +
+        `🎂 Age      : ${data.age}\n` +
+        `📅 Birthday : ${data.birthday}\n` +
+        `🔍 Interest : ${data.interest}\n` +
+        `🎨 Hobbies  : ${data.hobbies}\n` +
+        `🌈 Favorite Color : ${data.color}\n` +
+        `🖼️ Avatar : ${data.avatar}\n`;
+
+      const outputDiv = document.getElementById("profile-output");
+      outputDiv.innerText = profileText;
+      outputDiv.style.display = "block";
+    }
+
+    window.onload = () => {
+      applyTheme();
+
+      const savedProfile = localStorage.getItem("studentProfile");
+      if (savedProfile) {
+        const data = JSON.parse(savedProfile);
+        document.getElementById("name").value = data.name;
+        document.getElementById("age").value = data.age;
+        document.getElementById("birthday").value = data.birthday;
+        document.getElementById("interest").value = data.interest;
+        document.getElementById("hobbies").value = data.hobbies;
+        document.getElementById("color").value = data.color;
+        colorBox.style.background = data.color;
+
+        const avatarRadio = document.querySelector(`input[name="avatar"][value="${data.avatar}"]`);
+        if (avatarRadio) avatarRadio.checked = true;
+
+        displayProfile(data);
+      }
+    };
+
+    // 🔄 Live sync with settings.html
+    window.addEventListener("storage", function(e) {
+      if (e.key === "sensoryspaceSettings") {
+        applyTheme();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -41,19 +41,20 @@
 
 
     /* Sidebar */
-    .sidebar {
-      width: 150px;
-      background: #ffb703;
-      height: 100vh;
-      position: fixed;
-      top: 0;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 20px;
-      color: #4a2800;
-      transition: background 0.3s, color 0.3s;
+   .sidebar {
+  width: 150px;
+  background: #ffb703;
+  height: 100dvh; /* Fix for mobile viewport issues */
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  color: #4a2800;
+  overflow-y: auto; /* Allow scroll on small screens */
+  transition: background 0.3s, color 0.3s;
     }
     body.dark-mode .sidebar {
       background: #111;

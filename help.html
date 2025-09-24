@@ -7,36 +7,45 @@
   <style>
     :root {
       --bg1: #f0a8ba;
-      --bg2: #b64949;
+      --bg2: #79d0ec;
       --bg3: #7cf134;
-      --accent: #ffffff;
-      --accent-2: #f7f6fc;
-      --text: #910404;
-      --glow-color: #ffffff;
-      --btn-blue: #7cb2e7;
-      --btn-purple: #cb76ec;
-      --btn-pink: #f5bcd9;
-      --btn-yellow: #f0e991;
+      --accent: #00ffff;
+      --accent-2: #39ff14;
+      --text: #ffffff;
+      --glow-color: #73e9e9;
+      --btn-blue: #1e90ff;
+      --btn-purple: #9b59b6;
+      --btn-pink: #ff69b4;
+      --btn-yellow: #ffee00;
     }
-    
+
+
+
+
     html, body {
       height: 100%;
       margin: 0;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-family: 'Comic Sans MS', sans-serif;
       background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
       transition: background 0.3s, color 0.3s;
     }
 
+
+
+
     body.dark-mode {
-      background: #6868d1;
+      background: #000010;
       color: var(--text);
     }
+
+
+
 
     .back-btn {
       position: absolute;
       top: 20px;
       left: 20px;
-      background: #ebc004;
+      background: #111;
       color: var(--accent);
       padding: 10px 20px;
       font-size: 1em;
@@ -49,17 +58,23 @@
       z-index: 2000;
     }
 
+
+
+
     .back-btn:hover {
-      background: #7ab386;
+      background: #000;
       box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent);
     }
+
+
+
 
     .help-btn {
       position: fixed;
       right: 20px;
       bottom: 20px;
       background: var(--accent);
-      color: #1d0b58;
+      color: #000;
       border: none;
       padding: 12px 22px;
       border-radius: 50px;
@@ -70,10 +85,16 @@
       transition: transform .18s ease, box-shadow .3s;
     }
 
+
+
+
     .help-btn:hover {
       transform: translateY(-4px);
       box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
     }
+
+
+
 
     .modal {
       position: fixed;
@@ -81,13 +102,16 @@
       display: none;
       align-items: center;
       justify-content: center;
-      background: rgba(153, 130, 218, 0.22);
+      background: rgba(0, 0, 0, 0.22);
       backdrop-filter: blur(6px);
       z-index: 1100;
     }
 
+
+
+
     .card {
-      background: #aa66d8;
+      background: #030828;
       color: var(--text);
       width: 92%;
       max-width: 920px;
@@ -98,11 +122,17 @@
       border: 2px solid var(--accent);
     }
 
+
+
+
     .card h2 {
       margin: 0 0 10px 0;
       color: var(--accent-2);
       text-shadow: 0 0 5px var(--accent-2), 0 0 10px var(--accent-2);
     }
+
+
+
 
     .controls {
       display: flex;
@@ -111,6 +141,9 @@
       margin-top: 14px;
       flex-wrap: wrap;
     }
+
+
+
 
     .btn {
       padding: 10px 18px;
@@ -124,10 +157,16 @@
       transition: transform .14s ease, box-shadow 0.3s;
     }
 
+
+
+
     .btn:hover {
       transform: translateY(-4px);
       box-shadow: 0 0 15px var(--accent), 0 0 25px var(--accent);
     }
+
+
+
 
     .btn.primary {
       background: var(--btn-purple);
@@ -136,12 +175,18 @@
       box-shadow: 0 0 10px var(--accent);
     }
 
+
+
+
     .btn.danger {
       background: var(--btn-pink);
-      color: #360a0a;
+      color: #000;
       border: 1px solid var(--accent-2);
       box-shadow: 0 0 10px var(--accent-2);
     }
+
+
+
 
     .tutorial-step {
       display: none;
@@ -151,6 +196,9 @@
       text-align: center;
     }
 
+
+
+
     .step-text {
       font-size: 20px;
       color: var(--text);
@@ -159,12 +207,18 @@
       text-shadow: 0 0 4px var(--glow-color), 0 0 8px var(--glow-color);
     }
 
+
+
+
     .step-image {
       max-width: 92%;
       height: auto;
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(1, 114, 114, 0.3);
     }
+
+
+
 
     .step-footer {
       display: flex;
@@ -175,11 +229,17 @@
       flex-wrap: wrap;
     }
 
+
+
+
     .counter {
       font-weight: 700;
       color: var(--text);
       text-shadow: 0 0 5px var(--accent);
     }
+
+
+
 
     @media (max-width: 480px) {
       .step-text {
@@ -196,8 +256,14 @@
 </head>
 <body>
 
+
+
+
 <!-- ✅ Back to Dashboard -->
 <a href="index.html" class="back-btn">⬅ Back to Dashboard</a>
+
+
+
 
 <script>
   const applyDarkMode = () => {
@@ -211,8 +277,14 @@
   applyDarkMode();
 </script>
 
+
+
+
 <!-- Floating Help Button -->
 <button class="help-btn" id="helpButton">Hey! Need Help?</button>
+
+
+
 
 <!-- Help Modal -->
 <div class="modal" id="helpModal" aria-hidden="true">
@@ -226,15 +298,24 @@
   </div>
 </div>
 
+
+
+
 <!-- Tutorial Modal -->
 <div class="modal" id="tutorialModal" aria-hidden="true">
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="tutorialTitle">
     <h2 id="tutorialTitle">📖 Follow the Steps</h2>
 
+
+
+
     <div class="tutorial-step" id="stepContainer" style="display:flex;">
       <div class="step-text" id="stepText"></div>
       <img id="stepImage" class="step-image" src="" alt="tutorial step image" style="display:none;">
     </div>
+
+
+
 
     <div class="step-footer">
       <div style="display:flex;gap:8px;align-items:center;">
@@ -251,6 +332,9 @@
   </div>
 </div>
 
+
+
+
 <script>
   const helpButton = document.getElementById('helpButton');
   const helpModal = document.getElementById('helpModal');
@@ -265,6 +349,9 @@
   const stepCounter = document.getElementById('stepCounter');
   const speakBtn = document.getElementById('speakBtn');
 
+
+
+
   function getSettings() {
     try {
       return JSON.parse(localStorage.getItem('sensoryspaceSettings')) || {};
@@ -273,12 +360,18 @@
     }
   }
 
+
+
+
   const speakText = (text) => {
     const plainText = text.replace(/<\/?strong>/g, '');
     const speech = new SpeechSynthesisUtterance(plainText);
     speech.lang = 'en-US';
     window.speechSynthesis.speak(speech);
   };
+
+
+
 
   const steps = [
     { text: "<strong>STEP 1:</strong> Click 'Home' to go to Homepage", img: "1.png" },
@@ -291,17 +384,29 @@
     { text: "<strong>STEP 8:</strong> After setting your preferences, click 'Save Changes", img: "8.png" }
   ];
 
+
+
+
   let current = 0;
+
+
+
 
   function openMainModal() {
     helpModal.style.display = 'flex';
     helpModal.setAttribute('aria-hidden', 'false');
   }
 
+
+
+
   function closeMainModal() {
     helpModal.style.display = 'none';
     helpModal.setAttribute('aria-hidden', 'true');
   }
+
+
+
 
   function openTutorialModal() {
     closeMainModal();
@@ -311,10 +416,16 @@
     show(current);
   }
 
+
+
+
   function closeTutorialModal() {
     tutorialModal.style.display = 'none';
     tutorialModal.setAttribute('aria-hidden', 'true');
   }
+
+
+
 
   function show(idx) {
     const s = steps[idx];
@@ -324,6 +435,9 @@
     stepImage.style.display = s.img ? 'block' : 'none';
   }
 
+
+
+
   nextBtn.addEventListener('click', () => {
     if (current < steps.length - 1) {
       current++;
@@ -331,12 +445,18 @@
     }
   });
 
+
+
+
   prevBtn.addEventListener('click', () => {
     if (current > 0) {
       current--;
       show(current);
     }
   });
+
+
+
 
   speakBtn.addEventListener('click', () => {
     const settings = getSettings();
@@ -347,10 +467,16 @@
     }
   });
 
+
+
+
   closeTutorialBtn.addEventListener('click', closeTutorialModal);
   openTutorial.addEventListener('click', openTutorialModal);
   exitHelp.addEventListener('click', closeMainModal);
   helpButton.addEventListener('click', openMainModal);
+
+
+
 
   document.addEventListener("DOMContentLoaded", () => {
     const settings = getSettings();
@@ -364,3 +490,6 @@
 </script>
 </body>
 </html>
+
+
+

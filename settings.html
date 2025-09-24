@@ -5,7 +5,7 @@
   <title>Settings</title>
   <style>
     body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-family: 'Comic Sans MS', sans-serif;
       background: url("background1.jpg") no-repeat center center fixed;
       background-size: cover;
       margin: 0;
@@ -18,8 +18,14 @@
       color: #f1f1f1;
     }
 
+
+
+
     .settings-container { max-width: 600px; margin: 20px auto; padding: 20px; }
     h1 { font-size: 2em; text-align: center; margin-bottom: 20px; }
+
+
+
 
     .card {
       background: #fdeedc;
@@ -31,6 +37,9 @@
     }
     body.dark-mode .card { background: #333; }
 
+
+
+
     .card h2 { font-size: 1.3em; margin-bottom: 10px; }
     input, select {
       width: 100%;
@@ -41,6 +50,9 @@
       font-size: 1em;
     }
     input[type="range"] { width: 100%; }
+
+
+
 
     button {
       display: block;
@@ -58,6 +70,9 @@
     }
     button:hover { background: #ffdb4d; }
 
+
+
+
     .back-btn {
       position: absolute;
       top: 15px;
@@ -74,8 +89,14 @@
     }
     .back-btn:hover { background: #222; }
 
+
+
+
     details { margin-bottom: 15px; }
     details summary { cursor: pointer; font-weight: bold; font-size: 1.1em; }
+
+
+
 
     /* Notification Popup */
     .popup {
@@ -97,11 +118,20 @@
 </head>
 <body>
 
+
+
+
   <!-- Back to Dashboard -->
   <a href="index.html" class="back-btn">⬅ Back to Dashboard</a>
 
+
+
+
   <div class="settings-container">
     <h1>⚙️ Settings</h1>
+
+
+
 
     <div class="card">
       <details open>
@@ -129,6 +159,9 @@
         </p>
       </details>
     </div>
+
+
+
 
     <div class="card">
       <details>
@@ -160,6 +193,9 @@
       </details>
     </div>
 
+
+
+
     <div class="card">
       <details>
         <summary>Activity Settings</summary>
@@ -173,15 +209,27 @@
       </details>
     </div>
 
+
+
+
     <button class="save-btn" id="saveBtn">💾 Save Changes</button>
   </div>
 
+
+
+
   <div class="popup" id="popupMessage">Settings saved successfully! 🎉</div>
+
+
+
 
  <script>
   function applyTheme(theme) {
     document.body.classList.toggle('dark-mode', theme === 'dark');
   }
+
+
+
 
   function showPopup(message) {
     const popup = document.getElementById('popupMessage');
@@ -190,10 +238,16 @@
     setTimeout(() => popup.style.display = 'none', 1500);
   }
 
+
+
+
   function readSettings() {
     try { return JSON.parse(localStorage.getItem('sensoryspaceSettings')) || {}; }
     catch { return {}; }
   }
+
+
+
 
   function saveSettings() {
     const settings = {
@@ -214,6 +268,9 @@
     applyTheme(settings.appearance);
   }
 
+
+
+
   function loadSettings() {
     const s = readSettings();
     if (s.username !== undefined) document.getElementById('usernameInput').value = s.username;
@@ -231,13 +288,22 @@
     applyTheme(s.appearance);
   }
 
+
+
+
   function debounce(fn, wait) {
     let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
   }
   const autoSave = debounce(() => { saveSettings(); }, 300);
 
+
+
+
   document.addEventListener('DOMContentLoaded', () => {
     loadSettings();
+
+
+
 
     // Auto-save on any change
     document.querySelectorAll('input, select').forEach(el => {
@@ -246,6 +312,9 @@
         autoSave();
       });
     });
+
+
+
 
     // Optional manual save button keeps working
     document.getElementById('saveBtn').addEventListener('click', () => {
@@ -256,3 +325,12 @@
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+

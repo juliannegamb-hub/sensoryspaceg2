@@ -4,17 +4,20 @@
   <meta charset="UTF-8">
   <title>Reports - LMS</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+
 
     body {
       margin: 0;
-      font-family: 'Gloria Hallelujah', cursive;
+      font-family: 'Comic Sans MS';
       background: url('background1.jpg') no-repeat center center fixed;
       background-size: cover;
       padding: 20px;
       color: #333;
       transition: background 0.3s, color 0.3s;
     }
+
+
+
 
     a {
       display: inline-block;
@@ -25,6 +28,9 @@
       font-weight: bold;
     }
 
+
+
+
     .card {
       background: rgba(255,255,255,0.9);
       padding: 20px;
@@ -34,11 +40,17 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
+
+
+
     h1 {
       text-align: center;
       color: #5a3000;
       text-shadow: 0 0 5px #ffcc00;
     }
+
+
+
 
     .progress {
       background: #eee;
@@ -47,6 +59,9 @@
       margin: 10px 0;
       overflow: hidden;
     }
+
+
+
 
     .progress-bar {
       height: 100%;
@@ -58,6 +73,9 @@
       width: 0%;
       transition: width 0.5s;
     }
+
+
+
 
     button {
       background: #f9c74f;
@@ -72,10 +90,16 @@
       font-weight: bold;
     }
 
+
+
+
     button:hover {
       transform: scale(1.05);
       box-shadow: 0 0 12px #ffcc00, 0 0 24px #ffaa00;
     }
+
+
+
 
     .popup {
       display: none;
@@ -93,9 +117,15 @@
       font-family: 'Gloria Hallelujah', cursive;
     }
 
+
+
+
     .popup.show {
       display: block;
     }
+
+
+
 
     #awards-list {
       margin-top: 20px;
@@ -107,15 +137,24 @@
       margin-right: auto;
     }
 
+
+
+
     #awards-list ul {
       list-style: inside;
       padding-left: 0;
     }
 
+
+
+
     #awards-list li {
       margin: 8px 0;
       font-size: 18px;
     }
+
+
+
 
     /* ==== DARK MODE STYLES ==== */
     body.dark {
@@ -124,10 +163,16 @@
       background-image: none;
     }
 
+
+
+
     body.dark a {
       color: #80d8ff;
       text-shadow: 0 0 6px #80d8ff;
     }
+
+
+
 
     body.dark .card,
     body.dark #awards-list,
@@ -137,20 +182,32 @@
       box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
     }
 
+
+
+
     body.dark h1 {
       color: #ffcc00;
       text-shadow: 0 0 10px #ffaa00;
     }
 
+
+
+
     body.dark .progress {
       background: #333;
     }
+
+
+
 
     body.dark .progress-bar {
       background: linear-gradient(90deg, #2a9d8f, #f4a261, #e76f51);
       color: #fff;
       text-shadow: 0 0 5px #000;
     }
+
+
+
 
     body.dark button {
       background: #ffcc00;
@@ -159,11 +216,17 @@
       box-shadow: 0 0 8px #ffcc00, 0 0 16px #ffaa00;
     }
 
+
+
+
     body.dark button:hover {
       background: #ffaa00;
       color: #fff;
       box-shadow: 0 0 12px #ffcc00, 0 0 24px #ffaa00;
     }
+
+
+
 
     body.dark .popup {
       background: #222;
@@ -171,6 +234,9 @@
       border-color: #ffcc00;
       box-shadow: 0 0 12px #ffcc00;
     }
+
+
+
 
     /* 🌟 Badge Glow Effect */
     body.dark #awards-list li {
@@ -183,17 +249,32 @@
 <body>
   <a href="index.html">⬅ Back to Dashboard</a>
 
+
+
+
   <div class="card">
     <h1>📊 Student Progress Report</h1>
+
+
+
 
     <p>Reading Comprehension Basics</p>
     <div class="progress"><div id="readingProgress" class="progress-bar">0%</div></div>
 
+
+
+
     <p>Life Skills</p>
     <div class="progress"><div id="selfProgress" class="progress-bar">0%</div></div>
 
+
+
+
     <p>Social Skills Development</p>
     <div class="progress"><div id="socialProgress" class="progress-bar">0%</div></div>
+
+
+
 
     <div id="awards-list">
       <h3>🏆 Earned Badges</h3>
@@ -202,11 +283,20 @@
       </ul>
     </div>
 
+
+
+
     <button onclick="resetLessons()">🔄 Reset All Lessons</button>
   </div>
 
+
+
+
   <!-- Popup -->
   <div id="popup" class="popup"></div>
+
+
+
 
   <script>
     function applyTheme() {
@@ -215,16 +305,22 @@
       document.body.classList.toggle('dark', theme === 'dark');
     }
 
+
+
+
    function loadProgress() {
   // Get lesson progress from lessons.html
   const lessonProgress = JSON.parse(localStorage.getItem("lessonProgress")) || { completed: 0, total: 0, badges: [] };
-  
+ 
   // Define lesson categories
   const lessonCategories = {
     reading: ['bubbleStory', 'emotions', 'takingTurns', 'bodyLanguage', 'personalHygiene', 'deepBreathing', 'calmDown', 'handlingMoney', 'safetyPublic'],
     lifeSkills: ['personalHygiene', 'deepBreathing', 'calmDown', 'handlingMoney', 'safetyPublic'],
     socialSkills: ['bubbleStory', 'emotions', 'takingTurns', 'bodyLanguage']
   };
+
+
+
 
   // Calculate progress for each category
   const progress = {
@@ -233,15 +329,27 @@
     social: calculateCategoryProgress(lessonCategories.socialSkills, lessonProgress.badges)
   };
 
+
+
+
   // Set progress bars
   document.getElementById("readingProgress").style.width = progress.reading + "%";
   document.getElementById("readingProgress").textContent = progress.reading + "%";
 
+
+
+
   document.getElementById("selfProgress").style.width = progress.self + "%";
   document.getElementById("selfProgress").textContent = progress.self + "%";
 
+
+
+
   document.getElementById("socialProgress").style.width = progress.social + "%";
   document.getElementById("socialProgress").textContent = progress.social + "%";
+
+
+
 
   // Display badges
   const awardsList = document.getElementById("earnedAwardsList");
@@ -251,6 +359,9 @@
     awardsList.innerHTML = lessonProgress.badges.map(badge => `<li>${badge}</li>`).join("");
   }
 }
+
+
+
 
 function calculateCategoryProgress(lessonIds, earnedBadges) {
   // Map lesson IDs to their badge names
@@ -266,6 +377,9 @@ function calculateCategoryProgress(lessonIds, earnedBadges) {
     'safetyPublic': 'Public Safety Badge'
   };
 
+
+
+
   let completedInCategory = 0;
   lessonIds.forEach(lessonId => {
     const badgeName = lessonToBadgeMap[lessonId];
@@ -274,18 +388,27 @@ function calculateCategoryProgress(lessonIds, earnedBadges) {
     }
   });
 
+
+
+
   return Math.round((completedInCategory / lessonIds.length) * 100);
 }
+
+
+
 
 function resetLessons() {
   // Reset lesson progress (this will sync with lessons.html)
   localStorage.setItem("lessonProgress", JSON.stringify({ completed: 0, total: 9, badges: [] }));
-  
+ 
   // Also reset the old format for backward compatibility
   localStorage.setItem("studentProgress", JSON.stringify({ reading: 0, self: 0, social: 0 }));
   localStorage.setItem("earnedAwards", JSON.stringify([]));
-  
+ 
   loadProgress();
+
+
+
 
   const popup = document.getElementById("popup");
   popup.textContent = "All lessons and badges have been reset! 🔄";
@@ -293,11 +416,17 @@ function resetLessons() {
   setTimeout(() => popup.classList.remove("show"), 3000);
 }
 
+
+
+
     // Apply theme + load data
     window.onload = () => {
       applyTheme();
       loadProgress();
     };
+
+
+
 
     // 🔄 Live sync with settings.html
     window.addEventListener("storage", function(e) {
@@ -313,6 +442,9 @@ window.addEventListener("storage", function(e) {
   }
 });
 
+
+
+
 // Auto-refresh progress every 2 seconds to catch real-time updates
 setInterval(loadProgress, 2000);
       }
@@ -320,3 +452,12 @@ setInterval(loadProgress, 2000);
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+

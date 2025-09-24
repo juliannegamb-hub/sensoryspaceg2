@@ -5,23 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SensorySpace</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
     body {
       margin: 0;
-      font-family: 'Comic Sans MS';
+      font-family: 'Gloria Hallelujah', cursive;
       background: url("background1.jpg") no-repeat center center fixed;
       background-size: cover;
       transition: background 0.3s, color 0.3s;
     }
 
 
-
-
     body.dark-mode {
       background: #222 !important;
       color: #f1f1f1 !important;
     }
-
-
 
 
     /* Glow effects */
@@ -41,8 +38,6 @@
       box-shadow: 0 0 10px #00eaff, 0 0 20px #00aaff;
       transform: scale(1.08);
     }
-
-
 
 
     /* Sidebar */
@@ -67,8 +62,6 @@
     }
 
 
-
-
     .nav-item {
       margin: 50px 0;
       font-size: 20px;
@@ -85,13 +78,8 @@
     }
 
 
-
-
-
-
-   
     .settings {
-     margin-top: 100px;
+      margin-top: auto;
       background: #9cd85f;
       padding: 10px;
       border-radius: 15px;
@@ -105,8 +93,6 @@
       color: #fff;
       box-shadow: 0 0 10px #00ff88, 0 0 15px #00cc66;
     }
-
-
 
 
     /* Main Content */
@@ -135,8 +121,6 @@
     }
 
 
-
-
     /* Progress Section */
     .progress-section {
       display: flex;
@@ -160,13 +144,9 @@
 .social { background-color: #f9d97a; }
 
 
-
-
     body.dark-mode .reading { background-color: #264d73; border-color: #00eaff; }
     body.dark-mode .self-reg { background-color: #732d47; border-color: #ff66aa; }
     body.dark-mode .social { background-color: #665c1e; border-color: #ffaa00; }
-
-
 
 
     .card .card-photo {
@@ -190,28 +170,22 @@ body.dark-mode .card .card-photo {
 }
 
 
-
-
 .card {
   position: relative;
   overflow: visible;               /* allow overlap */
   padding: 56px 18px 14px;         /* smaller + room for image */
-  max-width: 400px;                /* smaller width */
-  min-width: 400px;
+  max-width: 300px;                /* smaller width */
+  min-width: 300px;
   max-height: 300px;                /* smaller width */
   min-height: 300px;
   border-width: 4px;
 }
 
 
-
-
 .card h3 {
   margin: 6px 0 10px;
   font-size: 18px;
 }
-
-
 
 
 /* Overlapping photo on top of the box */
@@ -227,14 +201,10 @@ body.dark-mode .card .card-photo {
 }
 
 
-
-
 /* Dark mode photo background (keeps contrast) */
 body.dark-mode .card .card-photo {
   box-shadow: 0 0 8px rgba(0, 234, 255, 0.15);
 }
-
-
 
 
 /* Keep progress bar compact inside the smaller card */
@@ -248,8 +218,6 @@ body.dark-mode .card .card-photo {
 }
 
 
-
-
     .progress-bar {
       background: rgba(255,255,255,0.7);
       border-radius: 10px;
@@ -260,8 +228,6 @@ body.dark-mode .card .card-photo {
     body.dark-mode .progress-bar {
       background: rgba(255,255,255,0.1);
     }
-
-
 
 
     .progress-fill {
@@ -279,13 +245,9 @@ body.dark-mode .card .card-photo {
     .social-fill { background: #f4a261; }
 
 
-
-
     body.dark-mode .reading-fill { background: #1b7068; box-shadow: 0 0 6px #00ffe0; }
     body.dark-mode .self-fill { background: #993a32; box-shadow: 0 0 6px #ff6699; }
     body.dark-mode .social-fill { background: #b8741b; box-shadow: 0 0 6px #ffaa33; }
-
-
 
 
     /* Awards Button */
@@ -316,8 +278,6 @@ body.dark-mode .card .card-photo {
     }
 
 
-
-
     /* Awards Content */
     #awards-content {
       margin-top: 20px;
@@ -331,8 +291,6 @@ body.dark-mode .card .card-photo {
       background: rgba(0,0,0,0.6);
       color: #fff;
     }
-
-
 
 
     /* Help Button */
@@ -356,8 +314,6 @@ body.dark-mode .card .card-photo {
     }
 
 
-
-
     /* Fade animation */
     .fade { opacity: 0; transition: opacity 0.5s ease-in-out; }
     .fade.show { opacity: 1; }
@@ -377,16 +333,12 @@ body.dark-mode .card .card-photo {
   </div>
 
 
-
-
   <!-- Main Content -->
   <div class="main">
     <header>
       <h1>SensorySpace</h1>
       <div class="profile" onclick="goProfile()">👤 Student Profile</div>
     </header>
-
-
 
 
     <!-- Progress Section -->
@@ -399,8 +351,6 @@ body.dark-mode .card .card-photo {
 </button>
 
 
-
-
 <button class="card self-reg">
   <img class="card-photo" src="life.png" alt="Life Skills" onerror="this.src='images/placeholder_life.png'">
   <h3>Life Skills</h3>
@@ -408,8 +358,6 @@ body.dark-mode .card .card-photo {
     <div class="progress-fill self-fill" id="self-progress">0%</div>
   </div>
 </button>
-
-
 
 
 <button class="card social">
@@ -421,14 +369,10 @@ body.dark-mode .card .card-photo {
 </button>
 
 
-
-
     <!-- Dynamic Dashboard Content -->
     <div id="dashboard-content" class="fade">
       <p>👋 Welcome! Click a card to view details.</p>
     </div>
-
-
 
 
     <!-- Awards Button -->
@@ -437,12 +381,8 @@ body.dark-mode .card .card-photo {
   </div>
 
 
-
-
   <!-- Help -->
   <div class="help" onclick="goHelp()">Hey! Need help?</div>
-
-
 
 
   <!-- JavaScript -->
@@ -455,15 +395,11 @@ body.dark-mode .card .card-photo {
     }
 
 
-
-
     document.addEventListener("DOMContentLoaded", applyTheme);
     window.addEventListener("pageshow", applyTheme);
     window.addEventListener("storage", (e) => {
       if (e.key === "sensoryspaceSettings") applyTheme();
     });
-
-
 
 
     // Navigation
@@ -472,8 +408,6 @@ body.dark-mode .card .card-photo {
     function goReports() { window.location.href = "reports.html"; }
     function goProfile() { window.location.href = "profile.html"; }
     function goHelp() { window.location.href = "help.html"; }
-
-
 
 
     // Progress Calculation Functions
@@ -492,8 +426,6 @@ body.dark-mode .card .card-photo {
       };
 
 
-
-
       let completedInCategory = 0;
       lessonIds.forEach(lessonId => {
         const badgeName = lessonToBadgeMap[lessonId];
@@ -503,12 +435,8 @@ body.dark-mode .card .card-photo {
       });
 
 
-
-
       return Math.round((completedInCategory / lessonIds.length) * 100);
     }
-
-
 
 
     function loadProgress() {
@@ -523,16 +451,12 @@ body.dark-mode .card .card-photo {
       };
 
 
-
-
       // Calculate progress for each category
       const progress = {
         reading: calculateCategoryProgress(lessonCategories.reading, lessonProgress.badges),
         lifeSkills: calculateCategoryProgress(lessonCategories.lifeSkills, lessonProgress.badges),
         socialSkills: calculateCategoryProgress(lessonCategories.socialSkills, lessonProgress.badges)
       };
-
-
 
 
       // Update progress bars
@@ -547,21 +471,15 @@ body.dark-mode .card .card-photo {
     }
 
 
-
-
     // Content Updates
     const content = document.getElementById('dashboard-content');
     const awardsContent = document.getElementById('awards-content');
-
-
 
 
     function updateContent(newHTML) {
       content.classList.remove('show');
       setTimeout(() => { content.innerHTML = newHTML; content.classList.add('show'); }, 200);
     }
-
-
 
 
     document.querySelector('.reading').addEventListener('click', () => {
@@ -575,8 +493,6 @@ body.dark-mode .card .card-photo {
     document.querySelector('.social').addEventListener('click', () => {
       updateContent(`<h2>👥 Social Skills</h2><p>You've achieved <strong>${document.getElementById("social-progress").textContent}</strong>. Try more social activities to boost your progress!</p>`);
     });
-
-
 
 
     document.querySelector('.awards').addEventListener('click', () => {
@@ -593,21 +509,15 @@ body.dark-mode .card .card-photo {
     });
 
 
-
-
     // Initialize Progress and Profile
     window.onload = () => {
       content.classList.add('show');
       loadProgress();
 
 
-
-
       const savedProfile = JSON.parse(localStorage.getItem("studentProfile"));
       if(savedProfile && savedProfile.name) document.getElementById("sidebar-name").textContent = "Hey, "+savedProfile.name+"!";
     };
-
-
 
 
     // 🔄 Live sync with lessons progress
@@ -618,21 +528,9 @@ body.dark-mode .card .card-photo {
     });
 
 
-
-
     // Auto-refresh progress every 3 seconds to catch real-time updates
     setInterval(loadProgress, 3000);
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 

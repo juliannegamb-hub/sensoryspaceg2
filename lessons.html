@@ -6,7 +6,7 @@
   <title>Lessons - SensorySpace</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap">
   <style>
-    * { font-family: 'Comic Sans MS', cursive, sans-serif !important; }
+    * { font-family: 'Comic Sans MS', sans-serif !important; }
 
 
     /* ==== LIGHT MODE (Default) ==== */
@@ -112,6 +112,39 @@ body.dark-mode .choice-btn:hover, body.dark-mode .choice-btn:focus {
   box-shadow: 0 0 10px #ffcc00, 0 0 20px #ffaa00;
 }
 
+/* Better Reset Progress Button */
+.reset-btn {
+  background: linear-gradient(90deg, #ff6b6b 0%, #ffd700 100%);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.08rem;
+  font-weight: bold;
+  padding: 10px 22px;
+  margin-left: 0;
+  margin-right: 0;
+  box-shadow: 0 2px 8px rgba(255,107,107,0.18);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.reset-btn:hover, .reset-btn:focus {
+  background: linear-gradient(90deg, #ff1744 0%, #ffd700 100%);
+  transform: scale(1.07) rotate(-2deg);
+  box-shadow: 0 4px 16px rgba(255,107,107,0.28);
+}
+.reset-btn:active {
+  background: linear-gradient(90deg, #ffd700 0%, #ff6b6b 100%);
+  transform: scale(0.98);
+}
+body.dark-mode .reset-btn {
+  background: linear-gradient(90deg, #e76f51 0%, #ffd700 100%) !important;
+  color: #ffe082 !important;
+  border: 1px solid #ffe082 !important;
+  box-shadow: 0 0 8px #ffcc00, 0 0 12px #ffaa00;
+}
 
     /* Drag & Drop */
     .draggable, .draggable-item {
@@ -780,7 +813,12 @@ body.dark-mode .match-target > div:last-child.dragover {
   </style>
 </head>
 <body>
-  <a href="index.html">⬅ Back to Dashboard</a>
+<div style="position:absolute;top:24px;left:24px;z-index:1001;display:flex;gap:12px;align-items:center;">
+  <a href="index.html" style="position:static;">⬅ Back to Dashboard</a>
+  <button class="reset-btn" onclick="confirmResetProgress()" title="Reset all lesson progress">
+    <span style="font-size:1.3em;">🗑️</span> Reset Progress
+  </button>
+</div>
 
 
   <!-- Text-to-Speech Controls -->
@@ -851,7 +889,6 @@ body.dark-mode .match-target > div:last-child.dragover {
   window.addEventListener('focus', applyTheme);
 </script>
 </body>
-  <a href="index.html">⬅ Back to Dashboard</a>
   <div class="card">
     <h1>📚 Lessons</h1>
     <div class="lesson-menu">
@@ -884,7 +921,6 @@ body.dark-mode .match-target > div:last-child.dragover {
         <div class="progress-fill" id="progressFill"></div>
       </div>
       <div class="muted" id="progressText"></div>
-      <button class="reset-btn" onclick="resetProgress()">🔄 Reset Progress</button>
     </div>
     <div id="awards">
       <h2>Awards 🏅</h2>
@@ -926,7 +962,13 @@ const implementedLessons = ['bubbleStory','emotions','takingTurns','personalHygi
     };
 
 
-
+function confirmResetProgress() {
+  // Use a fun confirmation dialog
+  if (window.confirm("⚠️ Are you sure you want to reset ALL your lesson progress?\n\nThis cannot be undone!")) {
+    resetProgress();
+    showToast("Progress has been reset!", "info", 2000);
+  }
+}
 
     function updateProgress() {
       const percentage = Math.min(100, (progress.completed / progress.total) * 100);
@@ -3272,12 +3314,6 @@ document.addEventListener('DOMContentLoaded', initTTS);
 
 </body>
 </html>
-	22
-
-
-
-
-
 
 
 
